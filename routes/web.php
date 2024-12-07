@@ -16,22 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Admin Controller
-Route::prefix('back/admin')
-    ->name('admin.')
-    ->controller(AdminController::class)
-    ->group(function () {
-        Route::get('dashboard', 'dashboard')->name('dashboard')->middleware('auth');
-    });
-
-// Vendor Controller
-Route::prefix('back/vender')
-    ->name('vendor.')
-    ->controller(VendorController::class)
-    ->group(function () {
-        Route::get('dashboard', 'dashboard')->name('dashboard')->middleware('auth');
-    });
-
 Route::get('/', function () {
     return view('welcome');
 });
