@@ -34,7 +34,7 @@
     <!--=============================
     DASHBOARD MENU START
   ==============================-->
-    @include('frontend.dashboard.layouts.menu')
+    @include('vendor.dashboard.layouts.menu')
     <!--=============================
     DASHBOARD MENU END
   ==============================-->
@@ -45,7 +45,7 @@
   ==============================-->
     <section id="wsus__dashboard">
         <div class="container-fluid">
-            @include('frontend.dashboard.layouts.sidebar')
+            @include('vendor.dashboard.layouts.sidebar')
             <div class="row">
                 <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
                     <div class="dashboard_content">
@@ -71,7 +71,7 @@
   ==============================-->
 
 
-    @include('frontend.dashboard.layouts.scripts')
+    @include('vendor.dashboard.layouts.scripts')
 </body>
 
 </html>

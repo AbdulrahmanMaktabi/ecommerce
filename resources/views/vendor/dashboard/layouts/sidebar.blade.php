@@ -13,6 +13,13 @@
         <li><a href="dsahboard_wishlist.html"><i class="far fa-heart"></i> Wishlist</a></li>
         <li><a href="dsahboard_profile.html"><i class="far fa-user"></i> My Profile</a></li>
         <li><a href="dsahboard_address.html"><i class="fal fa-gift-card"></i> Addresses</a></li>
-        <li><a href="#"><i class="far fa-sign-out-alt"></i> Log out</a></li>
+        <li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="far fa-sign-out-alt"></i> Log out
+            </a>
+        </li>
     </ul>
 </div>

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Frontend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +25,20 @@ Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
 
 Route::prefix('user')
     ->name('user.')
-    ->controller(DashboardController::class)
     ->middleware(['auth', 'verified'])
+    ->controller(DashboardController::class)
     ->group(function () {
         Route::get('dashboard', 'index')->name('dashboard');
+    });
+
+Route::prefix('user/dashboard')
+    ->name('user.')
+    ->middleware(['auth', 'verified'])
+    ->controller(ProfileController::class)
+    ->group(function () {
+        Route::get('profile', 'index')->name('profile');
+        Route::put('profile/update', 'update')->name('update');
+        Route::put('profile/update/password', 'password')->name('password.update');
     });
 
 Route::middleware('auth')->group(function () {
