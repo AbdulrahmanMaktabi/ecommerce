@@ -29,4 +29,8 @@
         gtag('config', 'UA-94034622-3');
     </script>
     <!-- /END GA -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
