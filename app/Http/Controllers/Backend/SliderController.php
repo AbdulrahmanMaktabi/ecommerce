@@ -36,7 +36,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'banner' => ['required', 'image', 'max:2000'],
+            'banner' => ['required', 'image', 'max:3000'],
             'type' => ['required', 'max:25'],
             'title' => ['required'],
             'starting_price' => ['required'],
@@ -80,7 +80,7 @@ class SliderController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->validate([
-            'banner' => ['nullable', 'image', 'max:2000'],
+            'banner' => ['nullable', 'image', 'max:3000'],
             'type' => ['required', 'max:25'],
             'title' => ['required'],
             'starting_price' => ['required'],

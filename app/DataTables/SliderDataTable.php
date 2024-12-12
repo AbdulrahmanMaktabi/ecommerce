@@ -27,11 +27,12 @@ class SliderDataTable extends DataTable
                 $destroyUrl = route('admin.slider.destroy', $query->id);
 
                 return "
+                
                 <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
                 <a href='" . route('admin.slider.destroy', $query->id) . "' 
                    class='btn btn-danger btn-sm delete-item'>
                    Delete
-                </a>            
+                </a>                       
             ";
             })
             ->addColumn('banner', function ($query) {
@@ -88,7 +89,6 @@ class SliderDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
                 ->addClass('text-center'),
         ];
     }
