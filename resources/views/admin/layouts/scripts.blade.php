@@ -27,6 +27,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="{{ asset('backend/assets/js/bootstrap-iconpicker.min.js') }}"></script>
+
 {{-- Dynamic delete --}}
 <script>
     $(document).ready(function() {
@@ -54,9 +56,9 @@
                         },
                         success: function(response) {
                             Swal.fire({
-                                title: "Deleted!",
+                                title: response.title,
                                 text: response.message,
-                                icon: "success"
+                                icon: response.status
                             }).then(() => {
                                 location.reload();
                             });
