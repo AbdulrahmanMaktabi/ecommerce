@@ -167,7 +167,7 @@ class ProductController extends Controller
 
         $this->deleteImage($product->thumb_image);
 
-        $galleryImage = ProductImageGallery::where('product_id', $product->id);
+        $galleryImage = ProductImageGallery::where('product_id', $product->id)->get();
         foreach ($galleryImage as $image) {
             $this->deleteImage($image->image);
         }
