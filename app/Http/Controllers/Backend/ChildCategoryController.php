@@ -136,8 +136,7 @@ class ChildCategoryController extends Controller
     // get 
     public function subCategories($categorySlug)
     {
-        $category = Category::where('slug', $categorySlug)
-            ->where('status', '1')
+        $category = Category::status(1)->where('slug', $categorySlug)
             ->with(['subCategories' => function ($query) {
                 $query->where('status', '1');
             }])

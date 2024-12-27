@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Brand;
+use App\Models\ProductImageGallery;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BrandDataTable extends DataTable
+class ProductImageGalleryDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,44 +23,31 @@ class BrandDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editUrl = route('admin.brand.edit', $query->id);
-                $destroyUrl = route('admin.brand.destroy', $query->id);
-
-                return "
-        
-        <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
-        <a href='{$destroyUrl}' 
-           class='btn btn-danger btn-sm delete-item'>
-           Delete
-        </a>                       
-    ";
-            })
-            ->addColumn('status', function ($query) {
-                $checked = $query->status == '1' ? 'checked' : '';
-                return "<label class='custom-switch mt-2'>
-                            <input type='checkbox' data-name='{$query->slug}' $checked name='custom-switch-checkbox' class='custom-switch-input'>
-                            <span class='custom-switch-indicator'></span>                        
-                        </label>";
-            })
-            ->addColumn('featured', function ($query) {
-                $checked = $query->featured == '1';
-                if ($checked)
-                    return "<i class='badge badge-success'>Yes</i>";
-                return "<i class='badge badge-danger'>No</i>";
+                $destroyUrl = route('admin.product.image-gallery.destroy', $query->id);
+                return "                                        
+                <a href='{$destroyUrl}' 
+                   class='btn btn-danger btn-sm delete-item'>
+                   Delete
+                </a>                              
+            ";
             })
             ->addColumn('image', function ($query) {
-                return "<img src='" . asset($query->image) . "' width='80px'></img>";
+                return "<img src='{$query->image}' width='120px'></img>";
             })
-            ->rawColumns(['action', 'status', 'featured', 'image'])
+            ->addColumn('product', function ($query) {
+                // dd($query->products);
+                return "<p>{$query->product->name}</p>";
+            })
+            ->rawColumns(['image', 'product', 'action'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Brand $model): QueryBuilder
+    public function query(ProductImageGallery $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('product_id', request()->product)->newQuery();
     }
 
     /**
@@ -69,7 +56,7 @@ class BrandDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('brand-table')
+            ->setTableId('productimagegallery-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -93,16 +80,11 @@ class BrandDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('image'),
-            Column::make('name'),
-            Column::make('slug'),
-            Column::make('status'),
-            Column::make('featured'),
+            Column::make('product'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
                 ->addClass('text-center'),
-
         ];
     }
 
@@ -111,6 +93,6 @@ class BrandDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Brand_' . date('YmdHis');
+        return 'ProductImageGallery_' . date('YmdHis');
     }
 }

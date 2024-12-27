@@ -82,7 +82,30 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($id);
+        $subCategory = SubCategory::findOrFail($id);
+
+        $data = $request->validate([
+            'name' => ['required', 'unique:sub_categories,name,' . $id],
+            'status' => ['required'],
+            'category' => ['required']
+        ]);
+        $data['slug'] = Str::slug($data['name']);
+
+        $categoryID = Category::where('slug', $data['category'])->first()->id;
+
+        if (!$categoryID) {
+            toastr('The Category Is Not Valid', 'error');
+            return;
+        }
+        $data['category_id'] = $categoryID;
+
+        unset($data['category']);
+
+        $subCategory->update($data);
+
+        toastr('The Sub Category Updated Successfully');
+
+        return to_route('admin.sub-category.index');
     }
 
     /**

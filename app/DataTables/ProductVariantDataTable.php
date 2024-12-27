@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Brand;
+use App\Models\ProductVariant;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BrandDataTable extends DataTable
+class ProductVariantDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,44 +23,35 @@ class BrandDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $editUrl = route('admin.brand.edit', $query->id);
-                $destroyUrl = route('admin.brand.destroy', $query->id);
-
-                return "
-        
-        <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
-        <a href='{$destroyUrl}' 
-           class='btn btn-danger btn-sm delete-item'>
-           Delete
-        </a>                       
-    ";
+                $editUrl = route('admin.product.variant.edit', $query->id);
+                $destroyUrl = route('admin.product.variant.destroy', $query->id);
+                $itemsUrl = route('admin.variant.items.index', ['product_id' => $query->product_id, 'variant_id' => $query->id]);
+                return "                        
+                <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
+                <a href='{$itemsUrl}' class='btn btn-primary btn-sm'>Variants Items</a>
+                <a href='{$destroyUrl}' 
+                   class='btn btn-danger btn-sm delete-item'>
+                   Delete
+                </a>                                
+            ";
             })
             ->addColumn('status', function ($query) {
                 $checked = $query->status == '1' ? 'checked' : '';
                 return "<label class='custom-switch mt-2'>
-                            <input type='checkbox' data-name='{$query->slug}' $checked name='custom-switch-checkbox' class='custom-switch-input'>
+                            <input type='checkbox' data-name='{$query->id}' $checked name='custom-switch-checkbox' class='custom-switch-input'>
                             <span class='custom-switch-indicator'></span>                        
                         </label>";
             })
-            ->addColumn('featured', function ($query) {
-                $checked = $query->featured == '1';
-                if ($checked)
-                    return "<i class='badge badge-success'>Yes</i>";
-                return "<i class='badge badge-danger'>No</i>";
-            })
-            ->addColumn('image', function ($query) {
-                return "<img src='" . asset($query->image) . "' width='80px'></img>";
-            })
-            ->rawColumns(['action', 'status', 'featured', 'image'])
+            ->rawColumns(['status', 'action'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Brand $model): QueryBuilder
+    public function query(ProductVariant $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('product_id', request()->product)->newQuery();
     }
 
     /**
@@ -69,7 +60,7 @@ class BrandDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('brand-table')
+            ->setTableId('productvariant-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -91,16 +82,13 @@ class BrandDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('image'),
-            Column::make('name'),
-            Column::make('slug'),
+            Column::make('id')
+                ->width(20),
+            Column::make('name')->width(950),
             Column::make('status'),
-            Column::make('featured'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
                 ->addClass('text-center'),
 
         ];
@@ -111,6 +99,6 @@ class BrandDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Brand_' . date('YmdHis');
+        return 'ProductVariant_' . date('YmdHis');
     }
 }
