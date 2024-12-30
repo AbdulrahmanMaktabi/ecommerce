@@ -7,34 +7,66 @@
             <h4>basic information</h4>
             <div class="row">
                 <div class="col-xl-9">
-                    <form action="{{ route('vendor.update') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('vendor.store-profile.update', ['store_profile' => $vendor->id]) }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="col-xl-3 col-sm-6 col-md-6 my-4 max-w-4">
                             <div class="wsus__dash_pro_img">
-                                <img src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('uploads/1087674397_02 (1).jpg') }}"
-                                    alt="img" class="img-fluid w-100">
-                                <input type="file" name="image">
+                                <img src="{{ $vendor->banner }}" alt="img" class="img-fluid w-100">
+                                <input type="file" name="banner">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-6 col-md-6">
+                            <div class="col-md-4">
                                 <div class="wsus__dash_pro_single">
                                     <i class="fas fa-user-tie"></i>
-                                    <input type="text" placeholder="Username" name="username"
-                                        value="{{ Auth::user()->username }}">
+                                    <input type="text" placeholder="store name" name="store_name"
+                                        value="{{ $vendor->store_name }}">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-md-6">
+                            <div class="col-md-4">
                                 <div class="wsus__dash_pro_single">
                                     <i class="fal fa-envelope-open"></i>
-                                    <input type="email" placeholder="Email" name="email"
-                                        value="{{ Auth::user()->email }}">
+                                    <input type="email" placeholder="Email" name="email" value="{{ $vendor->email }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="wsus__dash_pro_single">
+                                    <i class="fal fa-phone"></i>
+                                    <input type="text" placeholder="phone" name="phone" value="{{ $vendor->phone }}">
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="wsus__dash_pro_single">
+                                    <i class="fab fa-facebook"></i>
+                                    <input type="text" placeholder="Facebook Link" name="fb_link"
+                                        value="{{ $vendor->fb_link }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="wsus__dash_pro_single">
+                                    <i class="fab fa-instagram"></i>
+                                    <input type="text" placeholder="Instagram Link" name="insta_link"
+                                        value="{{ $vendor->insta_link }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="wsus__dash_pro_single">
+                                    <i class="fab fa-twitter"></i>
+                                    <input type="text" placeholder="X Link" name="x_link" value="{{ $vendor->x_link }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="wsus__dash_pro_single">
+                                <textarea name="description">{{ $vendor->description }}</textarea>
+                            </div>
+                        </div>
                         <div class="col-xl-12">
-                            <input type="submit" class="common_btn mb-4 mt-2" value="submit">
+                            <input type="submit" class="common_btn mb-4 mt-2" value="Edit">
                         </div>
                     </form>
 
