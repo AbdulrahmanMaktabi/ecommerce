@@ -2,8 +2,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                           LOGIN/REGISTER PAGE START
-                                                                                                                                                                                                                                                        ==============================-->
+        LOGIN/REGISTER PAGE START
+        ==============================-->
     <section id="wsus__login_register">
         <div class="container">
             <div class="row">
@@ -30,7 +30,7 @@
                                         <div class="wsus__login_input">
                                             <i class="fas fa-user-tie"></i>
                                             <input type="text" placeholder="Email" name="email"
-                                                value="{{ @old('email') }}">
+                                                value="{{ old('email') }}">
                                         </div>
                                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
@@ -43,18 +43,18 @@
                                         <div class="wsus__login_save">
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" name="remember" type="checkbox"
-                                                    id="flexSwitchCheckDefault" value="{{ @old('remember') }}">
+                                                    id="flexSwitchCheckDefault" {{ old('remember') ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Remember
                                                     me</label>
                                             </div>
                                             @if (Route::has('password.request'))
-                                                <a class="underline text-xs	 text-danger rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                <a class="underline text-xs text-danger rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                     href="{{ route('password.request') }}">
                                                     {{ __('Forgot your password?') }}
                                                 </a>
                                             @endif
                                         </div>
-                                        <button class="common_btn" type="submit">login</button>
+                                        <button class="common_btn" type="submit">Login</button>
                                         <p class="social_text">Sign in with social account</p>
                                         <ul class="wsus__login_link">
                                             <li><a href="#"><i class="fab fa-google"></i></a></li>
@@ -65,7 +65,6 @@
                                     </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -73,6 +72,6 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                           LOGIN/REGISTER PAGE END
-                                                                                                                                                                                                                                                        ==============================-->
+        LOGIN/REGISTER PAGE END
+        ==============================-->
 @endsection
