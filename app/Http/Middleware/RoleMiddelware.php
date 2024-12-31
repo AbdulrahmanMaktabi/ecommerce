@@ -16,8 +16,8 @@ class RoleMiddelware
     public function handle(Request $request, Closure $next, $role): Response
     {
         if ($request->user()->role != $role) {
-            dd($request->all());
-            return redirect()->route('dashboard');
+            toastr('You Dont Have Permission', 'warning');
+            return redirect()->back();
         }
         return $next($request);
     }

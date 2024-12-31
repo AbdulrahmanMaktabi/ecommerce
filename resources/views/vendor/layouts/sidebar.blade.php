@@ -8,6 +8,8 @@
     <ul class="dashboard_link">
         <li><a class="{{ setActive(['vendor.dashboard']) }}" href="{{ route('vendor.dashboard') }}"><i
                     class="fas fa-tachometer"></i>Dashboard</a></li>
+        <li><a class="{{ setActive(['vendor.product.*']) }}" href="{{ route('vendor.product.index') }}"><i
+                    class="fas fa-box"></i>Products</a></li>
         <li><a class="{{ setActive(['vendor.profile']) }}" href="{{ route('vendor.profile') }}"><i
                     class="far fa-user"></i> My
                 Profile</a></li>

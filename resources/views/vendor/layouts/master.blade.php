@@ -10,7 +10,7 @@
     <link rel="icon" type="{{ asset('frontend/assets') }}/images/png"
         href="{{ asset('frontend/assets') }}/images/favicon.png">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/bootstrap.min.css">
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/slick.css">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/jquery.nice-number.min.css">
@@ -25,7 +25,9 @@
 
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/responsive.css">
-    <!-- <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/rtl.css"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 </head>
 
 <body>

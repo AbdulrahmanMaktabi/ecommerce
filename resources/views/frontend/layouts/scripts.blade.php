@@ -36,6 +36,10 @@
   <!--main/custom js-->
   <script src="{{ asset('frontend/assets') }}/js/main.js"></script>
 
+  {{-- DataTable --}}
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
   <script>
       @if ($errors->any())
           @foreach ($errors->all() as $error)

@@ -22,4 +22,9 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/responsive.css">
     <!-- <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/rtl.css"> -->
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap-iconpicker.min.css') }}">
 </head>

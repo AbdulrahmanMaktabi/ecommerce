@@ -14,4 +14,9 @@ class Vendor extends Model
     {
         return $query->where('status', $status);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

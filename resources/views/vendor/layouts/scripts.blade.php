@@ -1,5 +1,9 @@
  <!--jquery library js-->
- <script src="{{ asset('frontend/assets') }}/js/jquery-3.6.0.min.js"></script>
+ {{-- <script src="{{ asset('frontend/assets') }}/js/jquery-3.6.0.min.js"></script> --}}
+ <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+ <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
  <!--bootstrap js-->
  <script src="{{ asset('frontend/assets') }}/js/bootstrap.bundle.min.js"></script>
  <!--font-awesome js-->
@@ -35,6 +39,9 @@
 
  <!--main/custom js-->
  <script src="{{ asset('frontend/assets') }}/js/main.js"></script>
+ <!-- SWAL -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
  <script>
      @if ($errors->any())
          @foreach ($errors->all() as $error)
@@ -44,3 +51,5 @@
          @endforeach
      @endif
  </script>
+
+ @stack('scripts')
