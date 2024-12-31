@@ -18,12 +18,12 @@
                     </div>
                     <div class="card-body">
                         <form action="{{ route('admin.product.image-gallery.store') }}" method="post"
-                            enctype="multipart/form-data" mul>
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="">Images</label>
+                                <label for="images">Images</label>
                                 <code>(multiple file upload)</code>
-                                <input type="file" name="image[]" class="form-control" multiple>
+                                <input type="file" name="image[]" class="form-control" id="images" multiple>
                                 <input type="hidden" name="product" value="{{ $product->id }}">
                             </div>
                             <div class="form-group">
@@ -38,11 +38,11 @@
         </div>
 
         <div class="row">
-            <div class="col-12 ">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header" style="justify-content: space-between">
                         <h4>Product Image Gallery Table</h4>
-                        <a href="{{ route('admin.product.create') }}" class="btn btn-primary">create new</a>
+                        <a href="{{ route('admin.product.create') }}" class="btn btn-primary">Create New</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -53,42 +53,8 @@
             </div>
         </div>
     </section>
+
     @push('scripts')
-        <script>
-            $(document).ready(function() {
-                // Listen for changes on custom-switch-checkbox
-                $('body').on('change', '.custom-switch-input', function() {
-                    let slug = $(this).data('name'); // Get the slug from data-name attribute
-                    let status = $(this).is(':checked') ? 1 : 0; // Determine the status based on checkbox
-
-                    // Send AJAX request
-                    $.ajax({
-                        url: "{{ route('admin.product.update.status') }}", // Define your route for updating status
-                        type: "POST",
-                        data: {
-                            slug: slug,
-                            status: status,
-                            _token: "{{ csrf_token() }}" // Pass CSRF token
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                title: "Success!",
-                                text: response.message,
-                                icon: "success"
-                            });
-                        },
-                        error: function(xhr) {
-                            Swal.fire({
-                                title: "Error!",
-                                text: xhr.responseJSON?.message || "Something went wrong!",
-                                icon: "error"
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
-
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     @endpush
 @endsection
