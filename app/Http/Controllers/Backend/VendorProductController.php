@@ -10,7 +10,10 @@ use App\Models\SubCategory;
 use App\Models\Product;
 use App\Traits\imageUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
+use function Laravel\Prompts\error;
 
 class VendorProductController extends Controller
 {
@@ -102,7 +105,14 @@ class VendorProductController extends Controller
      */
     public function edit($id)
     {
-        // Show the form to edit a specific resource
+        $product = Product::findOrFail($id);
+
+        if (Auth::user()->vendor->id != $product->vendor->id) return abort(403);
+
+        $brands = Brand::status(1)->get();
+        $categories = Category::status(1)->get();
+
+        return view('vendor.products.edit', get_defined_vars());
     }
 
     /**
@@ -114,7 +124,44 @@ class VendorProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Update the resource in the database
+        $data = $request->validate([
+            "name" => "required|string|max:255",
+            "qty" => "required|integer|min:0",
+            "price" => "required|numeric|min:0",
+            "offer_price" => "nullable|numeric|min:0|lte:price",
+            "short_description" => "required|string|max:255",
+            "long_description" => "required|string",
+            "offer_start_date" => "nullable|date|before_or_equal:offer_end_date",
+            "offer_end_date" => "nullable|date|after_or_equal:offer_start_date",
+            "vendor_id" => "required|exists:vendors,id",
+            "brand_id" => "required|exists:brands,id",
+            "status" => "required|boolean",
+            "category_id" => "required|exists:categories,id",
+            "subCategory_id" => "nullable|exists:sub_categories,id",
+            "childCategory_id" => "nullable|exists:child_categories,id",
+            "is_top" => "boolean",
+            "is_best" => "boolean",
+            "is_featured" => "boolean",
+            "is_approved" => "boolean",
+            "sku" => "nullable|string|max:100",
+            "video_link" => "nullable|url",
+            "seo_title" => "nullable|string|max:255",
+            "seo_description" => "nullable|string",
+            "thumb_image" => "nullable|image",
+        ]);
+
+        if ($request->hasFile('thumb_image')) {
+            $thumb_image = $this->updateImage($request, 'thumb_image');
+            unset($data['thumb_image']);
+            $data['thumb_image'] = $thumb_image;
+        }
+
+        $data['slug'] = Str::slug($data['name']);
+
+        Product::findOrFail($id)->update($data);
+
+        toastr('Product Update Successfully');
+        return to_route('vendor.product.index');
     }
 
     /**

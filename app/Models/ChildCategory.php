@@ -16,6 +16,10 @@ class ChildCategory extends Model
         return $this->belongsTo(SubCategory::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
     public function scopeStatus($query, $status)
     {
         return $query->where('status', $status);

@@ -10,38 +10,38 @@ class Product extends Model
     use HasFactory;
     protected $guarded = ['id', 'updated_at', 'created_at'];
 
-    public function categories()
+    public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function subCategories()
+    public function subCategory()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'subCategory_id');
     }
 
-    public function childCategories()
+    public function childCategory()
     {
-        return $this->hasMany(ChildCategory::class);
+        return $this->belongsTo(ChildCategory::class, 'childCategory_id');
     }
 
     public function vendor()
     {
-        return $this->hasMany(Vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 
     public function brand()
     {
-        return $this->hasMany(Brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
     public function productImagegallery()
     {
-        return $this->hasMany(ProductImageGallery::class);
+        return $this->belongsTo(ProductImageGallery::class);
     }
 
     public function productVariants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->belongsTo(ProductVariant::class);
     }
 }

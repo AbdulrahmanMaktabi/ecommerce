@@ -5,7 +5,6 @@
  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
  <!--bootstrap js-->
- <script src="{{ asset('frontend/assets') }}/js/bootstrap.bundle.min.js"></script>
  <!--font-awesome js-->
  <script src="{{ asset('frontend/assets') }}/js/Font-Awesome.js"></script>
  <!--select2 js-->
