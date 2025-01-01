@@ -31,16 +31,6 @@ class VendorProductDataTable extends DataTable
             ->addColumn('action', function ($query) {
                 $editUrl = route('vendor.product.edit', $query->id);
                 $destroyUrl = route('vendor.product.destroy', $query->id);
-                // <div class='dropdown d-inline dropleft'>
-                //   <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                //     <i class='fas fa-cogs'></i>
-                //   </button>
-                //   <div class='dropdown-menu'>
-                //     <a class='dropdown-item has-icon' href='" . route('admin.product.image-gallery.index', ['product' => $query->id]) . "'><i class='far fa-heart'></i> Image Gallery</a>
-                //     <a class='dropdown-item has-icon' href='" . route('admin.product.variant.index', ['product' => $query->id]) . "'><i class='far fa-square'></i>Variant</a>                        
-                //     <a class='dropdown-item has-icon' href='#'><i class='far fa-clock'></i> Something else here</a>
-                //   </div>
-                // </div>            
                 return "                        
                 <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
                 <a href='{$destroyUrl}' 
@@ -54,7 +44,7 @@ class VendorProductDataTable extends DataTable
                     </button>
                     <ul class='dropdown-menu'>
                         <li><a class='dropdown-item' href='" . route('vendor.product-image-gallery.index', ['product' => $query->id]) . "'>Image Gallery</a></li>
-                        <li><a class='dropdown-item' href='" . route('admin.product.image-gallery.index', ['product' => $query->id]) . "'>Variant</a></li>                        
+                        <li><a class='dropdown-item' href='" . route('vendor.product-variant.index', ['product' => $query->id]) . "'>Variant</a></li>                        
                     </ul>
                 </div>
             ";

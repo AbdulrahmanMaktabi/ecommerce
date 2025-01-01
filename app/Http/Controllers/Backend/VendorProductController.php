@@ -201,7 +201,7 @@ class VendorProductController extends Controller
         return response('No Child Categories Found');
     }
 
-    public function updateState(Request $request)
+    public function updateStatus(Request $request)
     {
         $request->validate([
             'slug' => 'required|exists:products,slug',
