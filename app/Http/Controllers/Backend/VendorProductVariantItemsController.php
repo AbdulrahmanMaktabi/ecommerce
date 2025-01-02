@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantIem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductVariantItemsController extends Controller
 {
@@ -16,6 +17,9 @@ class VendorProductVariantItemsController extends Controller
     public function index(VendorProductVariantItemsDataTable $datatable, $variant_id)
     {
         $variant = ProductVariant::findOrFail($variant_id);
+
+        if ($variant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
+
         return $datatable->render('vendor.products.variant-items.index', get_defined_vars());
     }
 
@@ -63,6 +67,9 @@ class VendorProductVariantItemsController extends Controller
     {
         $item = ProductVariantIem::findOrFail($variant_item_id);
         $variant = ProductVariant::findOrFail($variant_id);
+
+        if ($variant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
+
         return view('vendor.products.variant-items.edit', get_defined_vars());
     }
 
@@ -74,6 +81,8 @@ class VendorProductVariantItemsController extends Controller
 
         $variant = ProductVariant::findOrFail($variant_id);
         $item = ProductVariantIem::findOrFail($variant_item_id);
+
+        if ($variant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
 
         $data = $request->validate([
             "name" => ['required'],
@@ -96,6 +105,9 @@ class VendorProductVariantItemsController extends Controller
     public function destroy($variant_id, $variant_item_id)
     {
         $item = ProductVariantIem::findOrFail($variant_item_id);
+
+        if ($item->productVariant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
+
         $item->delete();
 
         return response()->json(['status' => 'success', 'message' => 'Item Deleted Successfully']);

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorProductVariantController extends Controller
 {
@@ -16,6 +17,9 @@ class VendorProductVariantController extends Controller
     public function index(Request $request, VendorProductVariantDataTable $dataTable)
     {
         $product = Product::findOrFail($request->product);
+
+        if ($product->vendor_id != Auth::user()->vendor->id) return abort(403);
+
         return $dataTable->render('vendor.products.variant.index', get_defined_vars());
     }
 
@@ -60,7 +64,7 @@ class VendorProductVariantController extends Controller
     public function edit(string $id)
     {
         $variant =  ProductVariant::findOrFail($id);
-
+        if ($variant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
         return view('vendor.products.variant.edit', get_defined_vars());
     }
 
@@ -88,6 +92,7 @@ class VendorProductVariantController extends Controller
     public function destroy(string $id)
     {
         $productVariant = ProductVariant::findOrFail($id);
+        if ($productVariant->product->vendor_id != Auth::user()->vendor->id) return abort(403);
 
         $productVariant->delete();
 
