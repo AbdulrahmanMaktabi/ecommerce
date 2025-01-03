@@ -83,4 +83,6 @@ Route::prefix('products/seller')
     ->name('product.seller.')
     ->group(function () {
         Route::get('/', [SellerProduct::class, 'index'])->name('index');
+        Route::get('pending', [SellerProduct::class, 'pending'])->name('pending');
+        Route::post('pending/approve/update', [SellerProduct::class, 'updateApprove'])->name('updateApprove');
     });

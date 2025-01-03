@@ -57,8 +57,12 @@
                                 href="{{ route('admin.brand.index') }}">Brand</a></li>
                         <li class="{{ setActive(['admin.product.*', 'admin.variant.*']) }}"><a class="nav-link "
                                 href="{{ route('admin.product.index') }}">Product</a></li>
-                        <li class="{{ setActive(['admin.product.seller.*']) }}">
+                        <li class="{{ setActive(['admin.product.seller.index']) }}">
                             <a class="nav-link " href="{{ route('admin.product.seller.index') }}">Sellers Products</a>
+                        </li>
+                        <li class="{{ setActive(['admin.product.seller.pending']) }}">
+                            <a class="nav-link " href="{{ route('admin.product.seller.pending') }}">Pending Sellers
+                                Products</a>
                         </li>
                     </ul>
                 </li>
