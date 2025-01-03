@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -15,10 +16,8 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Support\Facades\Auth;
 
-
-class ProductDataTable extends DataTable
+class SellerProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -31,7 +30,7 @@ class ProductDataTable extends DataTable
             ->addColumn('action', function ($query) {
                 $editUrl = route('admin.product.edit', $query->id);
                 $destroyUrl = route('admin.product.destroy', $query->id);
-                return "                        
+                return "                   
                     <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
                     <a href='{$destroyUrl}' 
                        class='btn btn-danger btn-sm delete-item'>
@@ -83,7 +82,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->where('vendor_id', Auth::user()->vendor->id)->newQuery();
+        return $model->where('vendor_id', '!=', Auth::user()->vendor->id)->newQuery();
     }
 
     /**

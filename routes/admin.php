@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemsController;
 use App\Http\Controllers\Backend\ProfileController;
+use App\Http\Controllers\Backend\SellerProduct;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Models\ChildCategory;
@@ -76,3 +77,10 @@ Route::prefix('variant')->name('variant.items.')->group(function () {
 
     Route::post('/product/variant/item/update-status', [ProductVariantItemsController::class, 'updateStatus'])->name('update.status');
 });
+
+// Seller Product Controller
+Route::prefix('products/seller')
+    ->name('product.seller.')
+    ->group(function () {
+        Route::get('/', [SellerProduct::class, 'index'])->name('index');
+    });
