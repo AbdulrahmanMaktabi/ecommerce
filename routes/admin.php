@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\SellerProduct;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\FlashSaleController;
 use App\Models\ChildCategory;
 use App\Models\ProductImageGallery;
 use Illuminate\Support\Facades\Route;
@@ -85,4 +86,12 @@ Route::prefix('products/seller')
         Route::get('/', [SellerProduct::class, 'index'])->name('index');
         Route::get('pending', [SellerProduct::class, 'pending'])->name('pending');
         Route::post('pending/approve/update', [SellerProduct::class, 'updateApprove'])->name('updateApprove');
+    });
+
+
+// Flash Sale Controller
+Route::prefix('flash-sale')
+    ->name('flashSale.')
+    ->group(function () {
+        Route::get('/', [FlashSaleController::class, 'index'])->name('index');
     });

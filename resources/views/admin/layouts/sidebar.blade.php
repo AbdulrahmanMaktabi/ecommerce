@@ -48,7 +48,7 @@
                 </li>
 
                 <li
-                    class="dropdown {{ setActive(['admin.brand.*', 'admin.product.*', 'admin.variant.*', 'admin.product.seller.*']) }}">
+                    class="dropdown {{ setActive(['admin.brand.*', 'admin.product.*', 'admin.variant.*', 'admin.product.seller.*', 'admin.flashSale.*']) }}">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                             class="fas fa-columns"></i>
                         <span>Manege Products</span></a>
@@ -62,6 +62,10 @@
                         </li>
                         <li class="{{ setActive(['admin.product.seller.pending']) }}">
                             <a class="nav-link " href="{{ route('admin.product.seller.pending') }}">Pending Sellers
+                                Products</a>
+                        </li>
+                        <li class="{{ setActive(['admin.flashSale.*']) }}">
+                            <a class="nav-link " href="{{ route('admin.flashSale.index') }}">Pending Sellers
                                 Products</a>
                         </li>
                     </ul>
