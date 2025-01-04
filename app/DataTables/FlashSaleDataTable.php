@@ -25,10 +25,10 @@ class FlashSaleDataTable extends DataTable
             ->addColumn('action', function ($query) {
                 $editUrl = route('admin.flashSale.edit', ['flashSaleID' => $query->id]);
                 $destroyUrl = route('admin.flashSale.destroy', ['flashSaleID' => $query->id]);
-                $destroyUrl = route('admin.flashSale.destroy', ['flashSaleID' => $query->id]);
+                $itemsUrl = route('admin.flashSale.items.index', ['flashSaleID' => $query->id]);
                 return "                        
                 <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
-                <a href='{$editUrl}' class='btn btn-warning btn-sm'>Add Products</a>               
+                <a href='{$itemsUrl}' class='btn btn-warning btn-sm'>Add Products</a>               
                 <a href='{$destroyUrl}' 
                    class='btn btn-danger btn-sm delete-item'>
                    Delete

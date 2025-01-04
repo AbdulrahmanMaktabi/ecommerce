@@ -10,6 +10,11 @@ class Product extends Model
     use HasFactory;
     protected $guarded = ['id', 'updated_at', 'created_at'];
 
+
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);

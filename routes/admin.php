@@ -106,10 +106,11 @@ Route::prefix('flash-sale')
 Route::prefix('flash-sale/items')
     ->name('flashSale.items.')
     ->group(function () {
-        Route::get('/', [FlashSaleItemsController::class, 'index'])->name('index');
-        Route::get('create', [FlashSaleItemsController::class, 'create'])->name('create');
-        Route::post('store', [FlashSaleItemsController::class, 'store'])->name('store');
+        Route::get('/{flashSaleID}', [FlashSaleItemsController::class, 'index'])->name('index');
+        Route::get('create/{flashSaleID}', [FlashSaleItemsController::class, 'create'])->name('create');
+        Route::post('store/{flashSaleID}', [FlashSaleItemsController::class, 'store'])->name('store');
         // Route::get('edit', [FlashSaleItemsController::class, 'edit'])->name('edit');
         // Route::put('update', [FlashSaleItemsController::class, 'update'])->name('update');
-        Route::delete('delete/{flashSaleItem}', [FlashSaleItemsController::class, 'destroy'])->name('destroy');
+        Route::delete('delete/{flashSaleItemID}', [FlashSaleItemsController::class, 'destroy'])->name('destroy');
+        Route::get('product/categories/child-categories/{childCategoryId}/products', [FlashSaleItemsController::class, 'getProductsByChildCategory']);
     });
