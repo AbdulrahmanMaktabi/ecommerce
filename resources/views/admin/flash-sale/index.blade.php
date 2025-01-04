@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header" style="justify-content: space-between">
                         <h4>Falsh Sale Table</h4>
-                        <a href="{{ route('admin.product.create') }}" class="btn btn-primary">create new</a>
+                        <a href="{{ route('admin.flashSale.create') }}" class="btn btn-primary">create new</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

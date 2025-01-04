@@ -94,4 +94,6 @@ Route::prefix('flash-sale')
     ->name('flashSale.')
     ->group(function () {
         Route::get('/', [FlashSaleController::class, 'index'])->name('index');
+        Route::get('create', [FlashSaleController::class, 'create'])->name('create');
+        Route::post('store', [FlashSaleController::class, 'store'])->name('store');
     });
