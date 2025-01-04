@@ -20,4 +20,11 @@ class FlashSaleItem extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function validateDiscount($discountAmount)
+    {
+        $productPrice = $this->product->price ?? 0;
+
+        return ($productPrice > $discountAmount) ?  true :  false;
+    }
 }

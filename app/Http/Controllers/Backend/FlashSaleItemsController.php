@@ -49,6 +49,14 @@ class FlashSaleItemsController extends Controller
             $flashSaleItem->flash_sale_id = $flashSale->id;
             $flashSaleItem->product_id = $productId;
             $flashSaleItem->discounted_price = $request->discounted_price[$productId];
+
+            // Validate the discount before saving
+            if (!$flashSaleItem->validateDiscount($request->discounted_price[$productId])) {
+                // If the discount is greater than the product price, return an error
+                toastr('The discounted price cannot be greater than the product price.', 'error');
+                return redirect()->back();
+            }
+
             $flashSaleItem->save();
         }
 
