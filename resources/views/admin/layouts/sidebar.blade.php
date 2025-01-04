@@ -65,8 +65,7 @@
                                 Products</a>
                         </li>
                         <li class="{{ setActive(['admin.flashSale.*']) }}">
-                            <a class="nav-link " href="{{ route('admin.flashSale.index') }}">Pending Sellers
-                                Products</a>
+                            <a class="nav-link " href="{{ route('admin.flashSale.index') }}">Flash Sale </a>
                         </li>
                     </ul>
                 </li>

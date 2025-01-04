@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\SellerProduct;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\FlashSaleController;
+use App\Http\Controllers\Backend\FlashSaleItemsController;
 use App\Models\ChildCategory;
 use App\Models\ProductImageGallery;
 use Illuminate\Support\Facades\Route;
@@ -96,4 +97,19 @@ Route::prefix('flash-sale')
         Route::get('/', [FlashSaleController::class, 'index'])->name('index');
         Route::get('create', [FlashSaleController::class, 'create'])->name('create');
         Route::post('store', [FlashSaleController::class, 'store'])->name('store');
+        Route::get('edit/{flashSaleID}', [FlashSaleController::class, 'edit'])->name('edit');
+        Route::put('update/{flashSaleID}', [FlashSaleController::class, 'update'])->name('update');
+        Route::post('updateStatus', [FlashSaleController::class, 'updateStatus'])->name('updateStatus');
+        Route::delete('delete/{flashSaleID}', [FlashSaleController::class, 'destroy'])->name('destroy');
+    });
+
+Route::prefix('flash-sale/items')
+    ->name('flashSale.items.')
+    ->group(function () {
+        Route::get('/', [FlashSaleItemsController::class, 'index'])->name('index');
+        Route::get('create', [FlashSaleItemsController::class, 'create'])->name('create');
+        Route::post('store', [FlashSaleItemsController::class, 'store'])->name('store');
+        // Route::get('edit', [FlashSaleItemsController::class, 'edit'])->name('edit');
+        // Route::put('update', [FlashSaleItemsController::class, 'update'])->name('update');
+        Route::delete('delete/{flashSaleItem}', [FlashSaleItemsController::class, 'destroy'])->name('destroy');
     });

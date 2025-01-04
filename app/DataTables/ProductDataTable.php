@@ -38,7 +38,7 @@ class ProductDataTable extends DataTable
                        Delete
                     </a>    
                      <div class='dropdown d-inline dropleft'>
-                      <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                      <button class='btn btn-sm btn-primary dropdown-toggle' type='button' id='dropdownMenuButton2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                         <i class='fas fa-cogs'></i>
                       </button>
                       <div class='dropdown-menu'>

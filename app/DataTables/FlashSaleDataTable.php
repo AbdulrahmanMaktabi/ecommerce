@@ -22,7 +22,27 @@ class FlashSaleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'flashsale.action')
+            ->addColumn('action', function ($query) {
+                $editUrl = route('admin.flashSale.edit', ['flashSaleID' => $query->id]);
+                $destroyUrl = route('admin.flashSale.destroy', ['flashSaleID' => $query->id]);
+                $destroyUrl = route('admin.flashSale.destroy', ['flashSaleID' => $query->id]);
+                return "                        
+                <a href='{$editUrl}' class='btn btn-info btn-sm'>Edit</a>
+                <a href='{$editUrl}' class='btn btn-warning btn-sm'>Add Products</a>               
+                <a href='{$destroyUrl}' 
+                   class='btn btn-danger btn-sm delete-item'>
+                   Delete
+                </a>   
+            ";
+            })
+            ->addColumn('status', function ($query) {
+                $checked = $query->status == '1' ? 'checked' : '';
+                return "<label class='custom-switch mt-2'>
+                        <input type='checkbox' data-id='{$query->id}' $checked name='custom-switch-checkbox' class='custom-switch-input'>
+                        <span class='custom-switch-indicator'></span>                        
+                    </label>";
+            })
+            ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
 
@@ -40,20 +60,20 @@ class FlashSaleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('flashsale-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('flashsale-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +82,14 @@ class FlashSaleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')
+                ->addClass('text-left'),
+            Column::make('name'),
+            Column::make('status'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center'),
         ];
     }
 

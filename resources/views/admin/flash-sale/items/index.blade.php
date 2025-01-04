@@ -32,15 +32,15 @@
             $(document).ready(function() {
                 // Listen for changes on custom-switch-checkbox
                 $('body').on('change', '.custom-switch-input', function() {
-                    let flashSaleID = $(this).data('id'); // Get the slug from data-name attribute
+                    let slug = $(this).data('name'); // Get the slug from data-name attribute
                     let status = $(this).is(':checked') ? 1 : 0; // Determine the status based on checkbox
 
                     // Send AJAX request
                     $.ajax({
-                        url: "{{ route('admin.flashSale.updateStatus') }}", // Define your route for updating status
+                        url: "{{ route('admin.product.update.status') }}", // Define your route for updating status
                         type: "POST",
                         data: {
-                            flashSaleID: flashSaleID,
+                            slug: slug,
                             status: status,
                             _token: "{{ csrf_token() }}" // Pass CSRF token
                         },
