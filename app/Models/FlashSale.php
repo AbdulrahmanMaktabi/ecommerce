@@ -15,4 +15,14 @@ class FlashSale extends Model
     {
         return $this->hasMany(FlashSaleItem::class);
     }
+
+    public function scopeStatus($query, $status = 1)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeShowOnHome($query, $show = 1)
+    {
+        return $query->where('show_on_home', $show);
+    }
 }

@@ -15,6 +15,12 @@ class Product extends Model
     {
         return $query->where('status', $status);
     }
+
+    public function imageGallery()
+    {
+        return $this->hasMany(ProductImageGallery::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

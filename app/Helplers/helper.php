@@ -11,3 +11,7 @@ function setActive($route)
         }
     }
 }
+function discountPercentage($originalPrice, $discountedPrice)
+{
+    return (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+}
