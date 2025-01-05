@@ -52,7 +52,8 @@
                                     </p>
                                     <a class="wsus__pro_name"
                                         href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->name }}</a>
-                                    <p class="wsus__price">${{ $item->product->price - $item->discounted_price }}
+                                    <p class="wsus__price">
+                                        {{ $generalSettings->currency_icon }}{{ $item->product->price - $item->discounted_price }}
                                         <del>${{ $item->product->price }}</del>
                                     </p>
                                     <a class="add_cart" href="#">add to cart</a>

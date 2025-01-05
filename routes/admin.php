@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FlashSaleItemsController;
+use App\Http\Controllers\Backend\SettingsController;
 use App\Models\ChildCategory;
 use App\Models\ProductImageGallery;
 use Illuminate\Support\Facades\Route;
@@ -113,4 +114,12 @@ Route::prefix('flash-sale/items')
         // Route::put('update', [FlashSaleItemsController::class, 'update'])->name('update');
         Route::delete('delete/{flashSaleItemID}', [FlashSaleItemsController::class, 'destroy'])->name('destroy');
         Route::get('product/categories/child-categories/{childCategoryId}/products', [FlashSaleItemsController::class, 'getProductsByChildCategory']);
+    });
+
+// General Settings
+Route::prefix('settings')
+    ->name('settings.')
+    ->group(function () {
+        Route::get('/', [SettingsController::class, 'index'])->name('index');
+        Route::put('update', [SettingsController::class, 'update'])->name('update');
     });
