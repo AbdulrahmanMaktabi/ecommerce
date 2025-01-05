@@ -11,7 +11,19 @@ function setActive($route)
         }
     }
 }
+
 function discountPercentage($originalPrice, $discountedPrice)
 {
     return (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+}
+
+function productStatus($product)
+{
+    if ($product->is_top) {
+        return "Top";
+    } elseif ($product->is_best) {
+        return "Best";
+    }
+
+    return "";
 }
