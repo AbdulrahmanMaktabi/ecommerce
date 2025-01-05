@@ -59,4 +59,26 @@
             @endif
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            // Get the Flash Sale End Time from Blade Variable
+            var endTime = new Date('{{ $flashSale->end_time }}');
+
+            // Initialize Countdown
+            simplyCountdown('.simply-countdown-one', {
+                year: endTime.getFullYear(),
+                month: endTime.getMonth() + 1, // Months are zero-indexed
+                day: endTime.getDate(),
+                hours: endTime.getHours(),
+                minutes: endTime.getMinutes(),
+                seconds: endTime.getSeconds(),
+                enableUtc: true, // Use UTC to ensure consistency
+                onEnd: function() {
+                    // Replace Countdown with "Sale Ended" Message
+                    document.querySelector('.simply-countdown-one').innerHTML = '<h2>Flash Sale Ended!</h2>';
+                }
+            });
+        </script>
+    @endpush
 @endif

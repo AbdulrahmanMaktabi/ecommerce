@@ -49,3 +49,5 @@
           @endforeach
       @endif
   </script>
+
+  @stack('scripts')
