@@ -23,7 +23,8 @@
                                     class="wsus__new">{{ ($item->product->is_best ? 'Best' : $item->product->is_top) ? 'Top' : 'New' }}</span>
                                 <span
                                     class="wsus__minus">-{{ discountPercentage($item->product->price, $item->discounted_price) }}</span>
-                                <a class="wsus__pro_link" href="product_details.html">
+                                <a class="wsus__pro_link"
+                                    href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">
                                     <img src="{{ asset($item->product->thumb_image) }}" alt="product"
                                         class="img-fluid w-100 img_1" />
                                     @if ($item->product->imageGallery[0])
@@ -38,7 +39,9 @@
                                     <li><a href="#"><i class="far fa-random"></i></a>
                                 </ul>
                                 <div class="wsus__product_details">
-                                    <a class="wsus__category" href="#">{{ $item->product->category->name }} </a>
+                                    <a class="wsus__category"
+                                        href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->category->name }}
+                                    </a>
                                     <p class="wsus__pro_rating">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -47,7 +50,8 @@
                                         <i class="fas fa-star-half-alt"></i>
                                         <span>(133 review)</span>
                                     </p>
-                                    <a class="wsus__pro_name" href="#">{{ $item->product->name }}</a>
+                                    <a class="wsus__pro_name"
+                                        href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->name }}</a>
                                     <p class="wsus__price">${{ $item->product->price - $item->discounted_price }}
                                         <del>${{ $item->product->price }}</del>
                                     </p>

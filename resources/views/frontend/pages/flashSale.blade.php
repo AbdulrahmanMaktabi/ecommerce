@@ -2,8 +2,8 @@
 @if ($flashSale)
     @section('content')
         <!--============================
-                                                                                                                                                                                BREADCRUMB START
-                                                                                                                                                                            ==============================-->
+                                                                                                                                                                                        BREADCRUMB START
+                                                                                                                                                                                    ==============================-->
         <section id="wsus__breadcrumb">
             <div class="wsus_breadcrumb_overlay">
                 <div class="container">
@@ -20,11 +20,11 @@
             </div>
         </section>
         <!--============================
-                                                                                                                                                                                BREADCRUMB END
-                                                                                                                                                                            ==============================-->
+                                                                                                                                                                                        BREADCRUMB END
+                                                                                                                                                                                    ==============================-->
         <!--============================
-                                                                                                                                                                            PRODUCT PAGE START
-                                                                                                                                                                        ==============================-->
+                                                                                                                                                                                    PRODUCT PAGE START
+                                                                                                                                                                                ==============================-->
         <section id="wsus__product_page">
             <div class="container">
                 <div class="row">
@@ -270,7 +270,8 @@
                                                         <span class="wsus__new">{{ productStatus($item->product) }}</span>
                                                         <span
                                                             class="wsus__minus">-{{ discountPercentage($item->product->price, $item->discounted_price) }}%</span>
-                                                        <a class="wsus__pro_link" href="product_details.html">
+                                                        <a class="wsus__pro_link"
+                                                            href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">
                                                             <img src="{{ asset($item->product->thumb_image) }}"
                                                                 alt="product" class="img-fluid w-100 img_1" />
                                                             @if ($item->product->imageGallery[0])
@@ -288,7 +289,8 @@
                                                         </ul>
                                                         <div class="wsus__product_details">
                                                             <a class="wsus__category"
-                                                                href="#">{{ $item->product->category->name }} </a>
+                                                                href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->category->name }}
+                                                            </a>
                                                             <p class="wsus__pro_rating">
                                                                 <i class="fas fa-star"></i>
                                                                 <i class="fas fa-star"></i>
@@ -340,8 +342,8 @@
             </div>
         </section>
         <!--============================
-                                                                                                                                                                            PRODUCT PAGE END
-                                                                                                                                                                        ==============================-->
+                                                                                                                                                                                    PRODUCT PAGE END
+                                                                                                                                                                                ==============================-->
     @endsection
 
 @endif

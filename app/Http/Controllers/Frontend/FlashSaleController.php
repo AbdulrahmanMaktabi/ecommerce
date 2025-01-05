@@ -15,6 +15,6 @@ class FlashSaleController extends Controller
             ->where('name', '2025 Flash')
             ->first();
 
-        return view('frontend.flash-sale.index', get_defined_vars());
+        return view('frontend.pages.flashSale', get_defined_vars());
     }
 }

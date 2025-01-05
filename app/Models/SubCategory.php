@@ -23,7 +23,7 @@ class SubCategory extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class); // Optional if products are tied to SubCategory directly
+        return $this->hasMany(Product::class, 'subCategory_id'); // Optional if products are tied to SubCategory directly
     }
 
     public function scopeStatus($query, $status)

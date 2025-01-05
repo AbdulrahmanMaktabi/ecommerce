@@ -27,3 +27,10 @@ function productStatus($product)
 
     return "";
 }
+
+function checkIfPriceNotSameToOfferPrice($price, $offerPrice)
+{
+    if ($price > $offerPrice) return true;
+
+    return false;
+}

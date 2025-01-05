@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
-
-Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('frontend.flashSale');
+// Frontend Routes
+Route::name('frontend.')
+    ->group(function () {
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flashSale');
+        Route::get('product/{slug}', [ProductController::class, 'index'])->name('product');
+        // 
+        Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
+    });
 
 Route::prefix('user')
     ->name('user.')

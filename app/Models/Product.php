@@ -46,13 +46,8 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function productImagegallery()
+    public function variants()
     {
-        return $this->belongsTo(ProductImageGallery::class);
-    }
-
-    public function productVariants()
-    {
-        return $this->belongsTo(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class);
     }
 }
