@@ -54,10 +54,11 @@
                                 <div class="col-md-4 mb-4"> <label for="">Discount Type</label>
                                     <select name="discount_type" id="" class="form-control">
                                         <option value="percentage"
-                                            {{ $coupon->percentage == 'percentage' ? 'selected' : '' }}>
+                                            {{ $coupon->discount_type == 'percentage' ? 'selected' : '' }}>
                                             percentage (%)
                                         </option>
-                                        <option value="amount" {{ $coupon->percentage == 'percentage' ? '' : 'selected' }}>
+                                        <option value="amount"
+                                            {{ $coupon->discount_type == 'percentage' ? '' : 'selected' }}>
                                             amount ($)
                                         </option>
                                     </select>
