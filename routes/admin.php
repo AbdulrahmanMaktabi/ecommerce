@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backedn\CouponController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\AdminVendorController;
 use App\Http\Controllers\Backend\BrandController;
@@ -116,10 +117,23 @@ Route::prefix('flash-sale/items')
         Route::get('product/categories/child-categories/{childCategoryId}/products', [FlashSaleItemsController::class, 'getProductsByChildCategory']);
     });
 
-// General Settings
+// General Settings Controller
 Route::prefix('settings')
     ->name('settings.')
     ->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('index');
         Route::put('update', [SettingsController::class, 'update'])->name('update');
+    });
+
+// Coupons Controller
+Route::prefix('coupon')
+    ->name('coupon.')
+    ->group(function () {
+        Route::get('/', [CouponController::class, 'index'])->name('index');
+        Route::get('create', [CouponController::class, 'create'])->name('create');
+        Route::post('store', [CouponController::class, 'store'])->name('store');
+        Route::get('edit/{couponID}', [CouponController::class, 'edit'])->name('edit');
+        Route::put('update/{couponID}', [CouponController::class, 'update'])->name('update');
+        Route::delete('delete', [CouponController::class, 'destroy'])->name('delete');
+        Route::post('update-status', [CouponController::class, 'updateStatus'])->name('updateStatus');
     });
