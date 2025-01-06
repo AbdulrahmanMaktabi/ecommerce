@@ -63,10 +63,16 @@
                                 location.reload();
                             });
                         },
-                        error: function() {
+                        error: function(xhr) {
+                            // Extract error details
+                            let errorMessage = "Something went wrong!";
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+
                             Swal.fire({
                                 title: "Error!",
-                                text: "Something went wrong!",
+                                text: errorMessage,
                                 icon: "error"
                             });
                         }

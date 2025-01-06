@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backedn;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -111,9 +111,9 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $couponID)
     {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::findOrFail($couponID);
 
         $coupon->delete();
         return response()->json(['status' => 'success', 'message' => 'Coupon Deleted Successfully']);

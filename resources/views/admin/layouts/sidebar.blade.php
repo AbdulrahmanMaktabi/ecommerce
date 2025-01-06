@@ -39,7 +39,8 @@
                                 href="{{ route('admin.child-category.index') }}">Child Category</a></li>
                     </ul>
                 </li>
-                <li class="dropdown {{ setActive(['admin.vendor.profile.*', 'admin.coupon.*']) }}">
+                <li
+                    class="dropdown {{ setActive(['admin.vendor.profile.*', 'admin.coupon.*', 'admin.shippingRule.*']) }}">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                             class="fas fa-columns"></i>
                         <span>Ecommerce</span></a>
@@ -48,6 +49,8 @@
                                 href="{{ route('admin.vendor.profile.index') }}">Vendro Profile</a></li>
                         <li class="{{ setActive(['admin.coupon.*']) }}"><a class="nav-link "
                                 href="{{ route('admin.coupon.index') }}">Coupon</a></li>
+                        <li class="{{ setActive(['admin.shippingRule.*']) }}"><a class="nav-link "
+                                href="{{ route('admin.shippingRule.index') }}">Shipping Rule</a></li>
                     </ul>
                 </li>
 

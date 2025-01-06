@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backedn\CouponController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\AdminVendorController;
 use App\Http\Controllers\Backend\BrandController;
@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FlashSaleItemsController;
 use App\Http\Controllers\Backend\SettingsController;
+use App\Http\Controllers\Backend\ShippingRulesController;
 use App\Models\ChildCategory;
 use App\Models\ProductImageGallery;
 use Illuminate\Support\Facades\Route;
@@ -134,6 +135,19 @@ Route::prefix('coupon')
         Route::post('store', [CouponController::class, 'store'])->name('store');
         Route::get('edit/{couponID}', [CouponController::class, 'edit'])->name('edit');
         Route::put('update/{couponID}', [CouponController::class, 'update'])->name('update');
-        Route::delete('delete', [CouponController::class, 'destroy'])->name('delete');
+        Route::delete('delete/{couponID}', [CouponController::class, 'destroy'])->name('delete');
         Route::post('update-status', [CouponController::class, 'updateStatus'])->name('updateStatus');
+    });
+
+// Shipping Rules Controller
+Route::prefix('shipping-rule')
+    ->name('shippingRule.')
+    ->group(function () {
+        Route::get('/', [ShippingRulesController::class, 'index'])->name('index');
+        Route::get('create', [ShippingRulesController::class, 'create'])->name('create');
+        Route::post('store', [ShippingRulesController::class, 'store'])->name('store');
+        Route::get('edit/{shippingRuleID}', [ShippingRulesController::class, 'edit'])->name('edit');
+        Route::put('update/{shippingRuleID}', [ShippingRulesController::class, 'update'])->name('update');
+        Route::delete('delete/{shippingRuleID}', [ShippingRulesController::class, 'destroy'])->name('delete');
+        Route::post('update-status', [ShippingRulesController::class, 'updateStatus'])->name('updateStatus');
     });
