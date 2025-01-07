@@ -225,7 +225,7 @@
                 <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
-                    <a href="route('logout')"
+                    <a href="javascript();"
                         onclick="event.preventDefault();
                                 this.closest('form').submit();"
                         class="dropdown-item has-icon text-danger">
