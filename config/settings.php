@@ -67,4 +67,22 @@ return [
         ],
     ],
 
+    'countries' => [
+        "Afghanistan" => ["Herat", "Kabul", "Kandahar", "Molah", "Rana"],
+        "United States" => ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
+        "Canada" => ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
+        "United Kingdom" => ["London", "Manchester", "Birmingham", "Leeds", "Glasgow"],
+        "Australia" => ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+        "India" => ["Delhi", "Mumbai", "Bangalore", "Hyderabad", "Chennai"],
+        "France" => ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
+        "Germany" => ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"],
+        "China" => ["Beijing", "Shanghai", "Guangzhou", "Shenzhen", "Chengdu"],
+        "Japan" => ["Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo"],
+        "Brazil" => ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza"],
+        "Mexico" => ["Mexico City", "Guadalajara", "Monterrey", "Puebla", "Tijuana"],
+        "Russia" => ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan"],
+        "South Africa" => ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Port Elizabeth"],
+        "Italy" => ["Rome", "Milan", "Naples", "Turin", "Palermo"],
+        "Turkey" => ["Elazig", "Istanbul", 'Gaziantep'],
+    ],
 ];

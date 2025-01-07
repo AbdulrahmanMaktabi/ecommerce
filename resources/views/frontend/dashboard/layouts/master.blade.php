@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/responsive.css">
     <!-- <link rel="stylesheet" href="{{ asset('frontend/assets') }}/css/rtl.css"> -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>

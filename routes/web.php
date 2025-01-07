@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\UserAddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,23 @@ Route::name('frontend.')
         Route::get('product/{slug}', [ProductController::class, 'index'])->name('product');
         // 
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
+    });
+
+// Frontend Dashboard Routes
+Route::prefix('dashboard')
+    ->group(function () {
+        // Address Controller
+        Route::prefix('address')
+            ->name('address.')
+            ->group(function () {
+                Route::get('/', [UserAddressController::class, 'index'])->name('index');
+                Route::get('create', [UserAddressController::class, 'create'])->name('create');
+                Route::post('sotre', [UserAddressController::class, 'store'])->name('store');
+                Route::get('get-cities', [UserAddressController::class, 'getCities'])->name('get-cities');
+                Route::get('eidt/{addressID}', [UserAddressController::class, 'edit'])->name('edit');
+                Route::put('update/{addressID}', [UserAddressController::class, 'update'])->name('update');
+                Route::delete('destroy/{addressID}', [UserAddressController::class, 'destroy'])->name('destroy');
+            });
     });
 
 Route::prefix('user')
