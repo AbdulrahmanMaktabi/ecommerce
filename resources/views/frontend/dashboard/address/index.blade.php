@@ -1,5 +1,5 @@
 @extends('frontend.dashboard.layouts.master')
-
+@section('title', $generalSettings->site_name . ' - Address ')
 @section('content')
     <h3><i class="fal fa-gift-card"></i> address</h3>
     <div class="wsus__dashboard_add">
