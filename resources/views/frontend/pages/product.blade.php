@@ -1,8 +1,8 @@
 @extends('frontend.layouts.master')
 @section('content')
     <!--==========================
-                                                                               PRODUCT MODAL VIEW START
-                                                                               ===========================-->
+                                                                                                                                                                                                                                                                                                                                   PRODUCT MODAL VIEW START
+                                                                                                                                                                                                                                                                                                                                   ===========================-->
     <section class="product_popup_modal">
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -102,11 +102,11 @@
         </div>
     </section>
     <!--==========================
-                                                                               PRODUCT MODAL VIEW END
-                                                                               ===========================-->
+                                                                                                                                                                                                                                                                                                                                   PRODUCT MODAL VIEW END
+                                                                                                                                                                                                                                                                                                                                   ===========================-->
     <!--============================
-                                                                               BREADCRUMB START
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                                                                                                   BREADCRUMB START
+                                                                                                                                                                                                                                                                                                                                   ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -123,11 +123,11 @@
         </div>
     </section>
     <!--============================
-                                                                               BREADCRUMB END
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                                                                                                   BREADCRUMB END
+                                                                                                                                                                                                                                                                                                                                   ==============================-->
     <!--============================
-                                                                               PRODUCT DETAILS START
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                                                                                                   PRODUCT DETAILS START
+                                                                                                                                                                                                                                                                                                                                   ==============================-->
     <section id="wsus__product_details">
         <div class="container">
             <div class="wsus__details_bg">
@@ -179,50 +179,52 @@
                                 <span>20 review</span>
                             </p>
                             <p class="description">{{ $product->short_description }}</p>
-                            @if (count($product->variants) > 0)
-                                <div class="wsus__selectbox">
-                                    <div class="row">
-                                        @foreach ($product->variants as $variant)
-                                            <div class="col-xl-6 col-sm-6">
-                                                <h5 class="mb-2">{{ $variant->name }}:</h5>
-                                                <select class="select_2" name="state"
-                                                    data-variant-price="{{ $variant->price }}"
-                                                    data-product-id="{{ $product->id }}">
-                                                    <option value="" selected>Choose One</option>
-                                                    @foreach ($variant->variantItems as $item)
-                                                        <option value="{{ $item->id }}"
-                                                            data-price="{{ $item->price }}">
-                                                            {{ $item->name }} (+${{ $item->price }})
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @endforeach
+                            <form class="shopping-cart-form">
+                                @if (count($product->variants) > 0)
+                                    <div class="wsus__selectbox">
+                                        <div class="row">
+                                            @foreach ($product->variants as $variant)
+                                                <div class="col-xl-6 col-sm-6">
+                                                    <h5 class="mb-2">{{ $variant->name }}:</h5>
+                                                    <select class="select_2" name="variants[]"
+                                                        data-variant-price="{{ $variant->price }}"
+                                                        data-product-id="{{ $product->id }}">
+                                                        <option value="" selected>Choose One</option>
+                                                        @foreach ($variant->variantItems as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                data-price="{{ $item->price }}">
+                                                                {{ $item->name }} (+${{ $item->price }})
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                            <div class="wsus__quentity">
-                                <h5>quentity :</h5>
-                                <form class="select_number">
-                                    <input class="number_area" type="text" min="1" max="100"
-                                        value="1" />
-                                </form>
-                                {{-- back to here --}}
-                                <h3>${{ $product->price }}</h3>
-                                @if (checkIfPriceNotSameToOfferPrice($product->price, $product->offer_price))
-                                    <p class="wsus__price" class="productPrice">${{ $product->offer_price }}
-                                        <del>${{ $product->price }}</del>
-                                    </p>
-                                @else
-                                    <p class="wsus__price" class="productPrice">${{ $product->price }}</p>
                                 @endif
-                            </div>
-                            <ul class="wsus__button_area">
-                                <li><a class="add_cart" href="#">add to cart</a></li>
-                                <li><a class="buy_now" href="#">buy now</a></li>
-                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
-                                <li><a href="#"><i class="far fa-random"></i></a></li>
-                            </ul>
+                                <div class="wsus__quentity">
+                                    <h5>quentity :</h5>
+                                    <div class="select_number">
+                                        <input class="number_area" type="text" min="1" max="100"
+                                            value="1" name="qty" />
+                                    </div>
+                                    {{-- back to here --}}
+                                    <h3>${{ $product->price }}</h3>
+                                    @if (checkIfPriceNotSameToOfferPrice($product->price, $product->offer_price))
+                                        <p class="wsus__price" class="productPrice">${{ $product->offer_price }}
+                                            <del>${{ $product->price }}</del>
+                                        </p>
+                                    @else
+                                        <p class="wsus__price" class="productPrice">${{ $product->price }}</p>
+                                    @endif
+                                </div>
+                                <ul class="wsus__button_area">
+                                    <li><input class="add_cart" type="submit" value="add to cart"> </li>
+                                    <li><a class="buy_now" href="#">buy now</a></li>
+                                    <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="far fa-random"></i></a></li>
+                                </ul>
+                            </form>
                             <p class="brand_model"><span>sku :</span> {{ $product->sku }}</p>
                             <p class="brand_model"><span>brand :</span> {{ $product->brand->name }}</p>
                         </div>
@@ -685,12 +687,12 @@
         </div>
     </section>
     <!--============================
-                                                                               PRODUCT DETAILS END
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                                                                                                   PRODUCT DETAILS END
+                                                                                                                                                                                                                                                                                                                                   ==============================-->
     <!--============================
-                                                                               RELATED PRODUCT START
-                                                                               
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                                                                                                   RELATED PRODUCT START
+                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                   ==============================-->
     @if (isset($subCategory))
         <section id="wsus__flash_sell">
             <div class="container">
@@ -709,7 +711,7 @@
                                 <span class="wsus__new">New</span>
                                 <span class="wsus__minus">-20%</span>
                                 <a class="wsus__pro_link"
-                                    href="href="{{ route('frontend.product', ['slug' => $product->slug]) }}"">
+                                    href="{{ route('frontend.product', ['slug' => $product->slug]) }}">
                                     <img src="{{ $product->thumb_image }}" alt="product"
                                         class="img-fluid w-100 img_1" />
                                     <img src="{{ $product->imageGallery[0]->image }}" alt="product"
@@ -751,10 +753,42 @@
         </section>
     @endif
     <!--============================
-                                                                               RELATED PRODUCT END
-                                                                               ==============================-->
+                                                                                                                                                                                                                                                        RELATED PRODUCT END
+                                                                                                                                                                                                                                                        ==============================-->
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                // Get the CSRF token value
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                let authUser = "{{ Auth::user()->id }}";
+                let productID = "{{ $product->id }}";
+
+                $('.shopping-cart-form').on('submit', function(e) {
+                    e.preventDefault(); // Prevent the form from submitting
+                    let formData = $(this).serialize(); // Serialize the form data
+                    console.log(formData); // Log the serialized data to the console
+
+                    // Send AJAX request
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{ route('frontend.addToCart') }}", // Use Blade to generate the URL
+                        data: formData + '&_token=' + csrfToken + "&userID=" + authUser +
+                            "&productID=" + productID,
+                        success: function(response) {
+                            console.log('Server Response:', response);
+                            // Handle success (e.g., show a success message)
+                            alert('Item added to cart successfully!');
+                        },
+                        error: function(error) {
+                            console.error('Error:', error);
+                            // Handle error (e.g., show an error message)
+                            alert('An error occurred. Please try again.');
+                        }
+                    });
+                });
+            });
+        </script>
+        {{-- <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Listen for the Select2 change event
                 document.querySelectorAll('.select_2').forEach(select => {
@@ -797,6 +831,6 @@
                     });
                 });
             });
-        </script>
+        </script> --}}
     @endpush
 @endsection

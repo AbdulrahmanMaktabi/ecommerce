@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UserAddressController;
+use App\Http\Controllers\Frontend\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::name('frontend.')
         Route::get('product/{slug}', [ProductController::class, 'index'])->name('product');
         // 
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
+
+        Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
     });
 
 // Frontend Dashboard Routes

@@ -3,6 +3,9 @@
 // namespace App\Helpers;
 
 // for sidebar activation 
+
+use App\Models\Product;
+
 function setActive($route)
 {
     if (is_array($route)) {
@@ -30,7 +33,13 @@ function productStatus($product)
 
 function checkIfPriceNotSameToOfferPrice($price, $offerPrice)
 {
-    if ($price > $offerPrice) return true;
+    if ($price >= $offerPrice) return true;
 
     return false;
+}
+
+function checkDiscount(Product $product)
+{
+    // Check if offerPrice is set and greater than 0
+    return $product->offer_price && $product->offer_price > 0;
 }
