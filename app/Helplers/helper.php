@@ -17,7 +17,8 @@ function setActive($route)
 
 function discountPercentage($originalPrice, $discountedPrice)
 {
-    return (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+    $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+    return intval($discountPercentage); // Returns only the integer part
 }
 
 function productStatus($product)

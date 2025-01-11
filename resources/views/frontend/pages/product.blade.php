@@ -1,8 +1,8 @@
 @extends('frontend.layouts.master')
 @section('content')
     <!--==========================
-                                                                                                                                                                                                                                                                                                                                   PRODUCT MODAL VIEW START
-                                                                                                                                                                                                                                                                                                                                   ===========================-->
+                                                                                                                                                                                                                                                                                                                                                                           PRODUCT MODAL VIEW START
+                                                                                                                                                                                                                                                                                                                                                                           ===========================-->
     <section class="product_popup_modal">
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -102,11 +102,11 @@
         </div>
     </section>
     <!--==========================
-                                                                                                                                                                                                                                                                                                                                   PRODUCT MODAL VIEW END
-                                                                                                                                                                                                                                                                                                                                   ===========================-->
+                                                                                                                                                                                                                                                                                                                                                                           PRODUCT MODAL VIEW END
+                                                                                                                                                                                                                                                                                                                                                                           ===========================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                   BREADCRUMB START
-                                                                                                                                                                                                                                                                                                                                   ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                           BREADCRUMB START
+                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -123,11 +123,11 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                   BREADCRUMB END
-                                                                                                                                                                                                                                                                                                                                   ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                           BREADCRUMB END
+                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                   PRODUCT DETAILS START
-                                                                                                                                                                                                                                                                                                                                   ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                           PRODUCT DETAILS START
+                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
     <section id="wsus__product_details">
         <div class="container">
             <div class="wsus__details_bg">
@@ -345,7 +345,7 @@
                                     <div class="wsus__pro_det_review">
                                         <div class="wsus__pro_det_review_single">
                                             <div class="row">
-                                                <div class="col-xl-8 col-lg-7">
+                                                {{-- <div class="col-xl-8 col-lg-7">
                                                     <div class="wsus__comment_area">
                                                         <h4>Reviews <span>02</span></h4>
                                                         <div class="wsus__main_comment">
@@ -503,7 +503,7 @@
                                                                 review</button>
                                                         </form>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -512,7 +512,7 @@
                                     aria-labelledby="pills-contact-tab23">
                                     <div class="wsus__pro_det_comment">
                                         <div class="row">
-                                            <div class="col-xl-7 col-lg-6">
+                                            {{-- <div class="col-xl-7 col-lg-6">
                                                 <div class="wsus__comment_area">
                                                     <h4>comment <span>03</span></h4>
                                                     <div class="wsus__main_comment">
@@ -675,7 +675,7 @@
                                                         <button class="common_btn" type="submit">post comment</button>
                                                     </form>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -687,12 +687,12 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                   PRODUCT DETAILS END
-                                                                                                                                                                                                                                                                                                                                   ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                           PRODUCT DETAILS END
+                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                   RELATED PRODUCT START
-                                                                                                                                                                                                                                                                                                                                   
-                                                                                                                                                                                                                                                                                                                                   ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                           RELATED PRODUCT START
+                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
     @if (isset($subCategory))
         <section id="wsus__flash_sell">
             <div class="container">
@@ -753,15 +753,15 @@
         </section>
     @endif
     <!--============================
-                                                                                                                                                                                                                                                        RELATED PRODUCT END
-                                                                                                                                                                                                                                                        ==============================-->
+                                                                                                                                                                                                                                                                                                RELATED PRODUCT END
+                                                                                                                                                                                                                                                                                                ==============================-->
     @push('scripts')
         <script>
             $(document).ready(function() {
                 // Get the CSRF token value
                 let csrfToken = $('meta[name="csrf-token"]').attr('content');
-                let authUser = "{{ Auth::user()->id }}";
                 let productID = "{{ $product->id }}";
+                let authUser = "{{ Auth::user()->id }}";
 
                 $('.shopping-cart-form').on('submit', function(e) {
                     e.preventDefault(); // Prevent the form from submitting
@@ -774,6 +774,7 @@
                         url: "{{ route('frontend.addToCart') }}", // Use Blade to generate the URL
                         data: formData + '&_token=' + csrfToken + "&userID=" + authUser +
                             "&productID=" + productID,
+                        // data: formData + '&_token=' + csrfToken + "&productID=" + productID,
                         success: function(response) {
                             console.log('Server Response:', response);
                             // Handle success (e.g., show a success message)
