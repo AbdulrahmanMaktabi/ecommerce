@@ -157,6 +157,12 @@ class CartController extends Controller
         ]);
     }
 
+    // Cart Page
+    public function cart(Request $request)
+    {
+        return view('frontend.pages.cart');
+    }
+
     private function calculateProductPrice($product, $qty, $variantsTotalPrice)
     {
         return checkDiscount($product)

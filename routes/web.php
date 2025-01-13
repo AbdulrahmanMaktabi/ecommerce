@@ -26,11 +26,18 @@ Route::name('frontend.')
     ->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('home');
         Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flashSale');
+        // Route with slug
         Route::get('product/{slug}', [ProductController::class, 'index'])->name('product');
+        // Redirect when no slug is provided
+        Route::get('product', function () {
+            return redirect()->route('frontend.home');
+        });
         // 
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
 
         Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+        // Cart Page
+        Route::get('cart', [CartController::class, 'cart'])->name('cart');
     });
 
 // Frontend Dashboard Routes
