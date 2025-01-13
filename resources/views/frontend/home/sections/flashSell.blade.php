@@ -54,10 +54,17 @@
                                     </p>
                                     <a class="wsus__pro_name"
                                         href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->name }}</a>
-                                    <p class="wsus__price">
-                                        {{ $generalSettings->currency_icon }}{{ $item->product->price - $item->discounted_price }}
-                                        <del>${{ $item->product->price }}</del>
-                                    </p>
+                                    @if (checkDiscount($item?->product))
+                                        <p class="wsus__price">
+                                            {{ $generalSettings->currency_icon }}{{ $item->product->offer_price - $item->discounted_price }}
+                                            <del>${{ $item->product->price }}</del>
+                                        </p>
+                                    @else
+                                        <p class="wsus__price">
+                                            {{ $generalSettings->currency_icon }}{{ $item->product->price - $item->discounted_price }}
+                                            <del>${{ $item->product->price }}</del>
+                                        </p>
+                                    @endif
                                     <a class="add_cart" href="#">add to cart</a>
                                 </div>
                             </div>

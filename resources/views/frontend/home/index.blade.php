@@ -1,10 +1,9 @@
 @extends('frontend.layouts.master')
-
 @section('content')
     @foreach ($flashSale->items as $item)
         <!--==========================
-                                                                                                                                                                                                                                                                                                                         PRODUCT MODAL VIEW START
-                                                                                                                                                                                                                                                                                                                        ===========================-->
+           PRODUCT MODAL VIEW START
+           ===========================-->
         <section class="product_popup_modal">
             <div class="modal fade" id="exampleModal-{{ $item->id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
@@ -31,7 +30,6 @@
                                                 @endforeach
                                             </div>
                                         @endif
-
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-12 col-sm-12 col-md-12 col-lg-6">
@@ -62,7 +60,6 @@
                                                     <input class="number_area" type="text" min="1" max="100"
                                                         value="1" />
                                                 </div>
-
                                                 @if (checkDiscount($item->product))
                                                     <h4>${{ $item->product->offer_price }}
                                                         <del>${{ $item->product->price }}</del>
@@ -71,7 +68,6 @@
                                                     <h4>${{ $item->product->price }}</h4>
                                                 @endif
                                             </div>
-
                                             @if (count($item->product->variants) > 0)
                                                 <div class="wsus__selectbox">
                                                     <div class="row">
@@ -91,7 +87,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-
                                             <ul class="wsus__button_area">
                                                 <li><a class="add_cart" href="#">add to cart</a></li>
                                                 <li><a class="buy_now" href="#">buy now</a></li>
@@ -123,12 +118,12 @@
             </div>
         </section>
         <!--==========================
-                                                                                                                                                                                                                                                                                                            PRODUCT MODAL VIEW END
-                                                                                                                                                                                                                                                                                                            ===========================-->
+           PRODUCT MODAL VIEW END
+           ===========================-->
     @endforeach
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            BANNER PART 2 START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           BANNER PART 2 START
+           ==============================-->
     {{-- @include('frontend.home.sections.slider') --}}
     <section id="wsus__banner">
         <div class="container">
@@ -136,7 +131,6 @@
                 <div class="col-xl-12">
                     <div class="wsus__banner_content">
                         <div class="row banner_slider">
-
                             @foreach ($sliders as $slider)
                                 <div class="col-xl-12">
                                     <div class="wsus__single_slider"
@@ -158,111 +152,85 @@
             </div>
         </div>
     </section>
-
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            BANNER PART 2 END
-                                                                                                                                                                                                                                                                                                                                                                                                           ==============================-->
-
-
+           BANNER PART 2 END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            FLASH SELL START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           FLASH SELL START
+           ==============================-->
     @include('frontend.home.sections.flashSell')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            FLASH SELL END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
-
-
+           FLASH SELL END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           MONTHLY TOP PRODUCT START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+           MONTHLY TOP PRODUCT START
+           ==============================-->
     @include('frontend.home.sections.topProducts')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           MONTHLY TOP PRODUCT END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           MONTHLY TOP PRODUCT END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            BRAND SLIDER START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           BRAND SLIDER START
+           ==============================-->
     @include('frontend.home.sections.brandSlider')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            BRAND SLIDER END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
+           BRAND SLIDER END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            SINGLE BANNER START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           SINGLE BANNER START
+           ==============================-->
     @include('frontend.home.sections.singleBanner')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            SINGLE BANNER END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           SINGLE BANNER END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            HOT DEALS START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           HOT DEALS START
+           ==============================-->
     @include('frontend.home.sections.hotDeals')
-
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            HOT DEALS END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           HOT DEALS END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ELECTRONIC PART START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           ELECTRONIC PART START
+           ==============================-->
     @include('frontend.home.sections.electronicPart1')
-
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ELECTRONIC PART END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           ELECTRONIC PART END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ELECTRONIC PART START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           ELECTRONIC PART START
+           ==============================-->
     @include('frontend.home.sections.electronicPart2')
-
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ELECTRONIC PART END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           ELECTRONIC PART END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            LARGE BANNER  START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           LARGE BANNER  START
+           ==============================-->
     @include('frontend.home.sections.largeBanner')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            LARGE BANNER  END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           LARGE BANNER  END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            WEEKLY BEST ITEM START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           WEEKLY BEST ITEM START
+           ==============================-->
     @include('frontend.home.sections.weeklyBestItem')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            WEEKLY BEST ITEM END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           WEEKLY BEST ITEM END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          HOME SERVICES START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           HOME SERVICES START
+           ==============================-->
     @include('frontend.home.sections.services')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            HOME SERVICES END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
-
-
+           HOME SERVICES END
+           ==============================-->
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            HOME BLOGS START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+           HOME BLOGS START
+           ==============================-->
     @include('frontend.home.sections.blog')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            HOME BLOGS END
-                                                                                           
+        HOME BLOGS END
 @endsection
 @push('scripts')
     <script>
