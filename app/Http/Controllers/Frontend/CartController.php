@@ -160,7 +160,8 @@ class CartController extends Controller
     // Cart Page
     public function cart(Request $request)
     {
-        return view('frontend.pages.cart');
+        $cart = Cart::content();
+        return view('frontend.pages.cart', get_defined_vars());
     }
 
     private function calculateProductPrice($product, $qty, $variantsTotalPrice)
