@@ -104,8 +104,8 @@ class CartController extends Controller
         $request->validate([
             'productID' => 'required|exists:products,id',
             'qty' => 'required|integer|min:1',
-            'variants' => 'array',
-            'variants.*' => 'exists:product_variant_iems,id',
+            'variants' => 'nullable|array',
+            'variants.*' => 'required_with:variants|exists:product_variant_iems,id',
         ]);
 
         try {
