@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\ProductVariantIem;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
-
+use PhpParser\Node\Stmt\TryCatch;
 
 class CartController extends Controller
 {
@@ -132,15 +132,18 @@ class CartController extends Controller
             }
         }
 
-        $productTotalPrice = $this->calculateProductPrice($product, $request->qty, $variantsTotalPrice);
+        $productPrice = $this->calculateProductPrice($product, $request->qty);
 
         $cartItem = [
             'id' => $product->id,
             'name' => $product->name,
             'qty' => $request->qty,
-            'price' => $productTotalPrice,
+            'price' => $productPrice,
             'options' => [
                 'variants' => $variants,
+                'thumb_image' => $product->thumb_image,
+                'slug' => $product->slug,
+                'variantsTotalPrice' => $variantsTotalPrice,
             ],
         ];
 
@@ -164,10 +167,47 @@ class CartController extends Controller
         return view('frontend.pages.cart', get_defined_vars());
     }
 
-    private function calculateProductPrice($product, $qty, $variantsTotalPrice)
+    // Destroy Cart
+    public function destroy()
+    {
+        Cart::destroy();
+        return response()->json(['message' => 'Cart Deleted Successfully', 'status' => 'success']);
+    }
+
+    // update qty
+    public function updateQty(Request $request)
+    {
+        $request->validate([
+            'rowId' => 'required|string', // Ensure rowId is a valid string
+            'qty' => 'required|integer|min:1', // Ensure qty is an integer and at least 1
+        ]);
+
+        try {
+            Cart::update($request->rowId, $request->qty);
+
+            // Optionally, retrieve updated cart details
+            $cartItem = Cart::get($request->rowId);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Updated Successfully',
+                'cartItem' => $cartItem, // Include updated cart item
+                'total' => Cart::total(), // Include updated cart total
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid Data',
+                'error' => $th->getMessage(), // Optional: Include exception message
+            ]);
+        }
+    }
+
+
+    private function calculateProductPrice($product, $qty)
     {
         return checkDiscount($product)
-            ? ($product->offer_price * $qty) + $variantsTotalPrice
-            : ($product->price * $qty) + $variantsTotalPrice;
+            ? ($product->offer_price * $qty)
+            : ($product->price * $qty);
     }
 }

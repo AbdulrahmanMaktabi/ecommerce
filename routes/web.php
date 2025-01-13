@@ -38,6 +38,10 @@ Route::name('frontend.')
         Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
         // Cart Page
         Route::get('cart', [CartController::class, 'cart'])->name('cart');
+        // Testing only
+        Route::get('destroy-cart', [CartController::class, 'destroy'])->name('destory');
+        // Update qty item in cart
+        Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
     });
 
 // Frontend Dashboard Routes
