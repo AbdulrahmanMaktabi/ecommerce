@@ -173,7 +173,7 @@ class CartController extends Controller
     public function destroy()
     {
         Cart::destroy();
-        return response()->json(['message' => 'Cart Deleted Successfully', 'status' => 'success']);
+        return redirect()->back();
     }
 
     // update qty

@@ -39,7 +39,7 @@ Route::name('frontend.')
         // Cart Page
         Route::get('cart', [CartController::class, 'cart'])->name('cart');
         // Testing only
-        Route::get('destroy-cart', [CartController::class, 'destroy'])->name('destory');
+        Route::get('car/destory', [CartController::class, 'destroy'])->name('destory');
         // Update qty item in cart
         Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
         // Get total price after update qty

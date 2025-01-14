@@ -4,12 +4,12 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
-                @if (isset($cart))
+                @if (isset($cart) && count($cart) > 0)
                     <div class="col-xl-9">
                         <div class="wsus__cart_list">
                             <div class="table-responsive">
@@ -38,7 +38,7 @@
 
 
                                             <th class="wsus__pro_icon">
-                                                <a href="#" class="common_btn">clear cart</a>
+                                                <a href="{{ route('frontend.destory') }}" class="common_btn">clear cart</a>
                                             </th>
                                         </tr>
                                         @foreach ($cart as $item)
@@ -106,8 +106,51 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-md-12">
-                        <h2>Cart Is Empty</h2>
+                    <div class="col-xl-9">
+                        <div class="wsus__cart_list">
+                            <table>
+                                <tbody>
+                                    <tr class="d-flex ">
+                                        <th class="wsus__pro_img">
+                                            product item
+                                        </th>
+
+                                        <th class="wsus__pro_name">
+                                            product details
+                                        </th>
+
+                                        <th class="wsus__pro_tk">
+                                            price
+                                        </th>
+
+                                        <th class="wsus__pro_status">
+                                            Total Price
+                                        </th>
+
+                                        <th class="wsus__pro_select">
+                                            quantity
+                                        </th>
+
+
+                                        <th class="wsus__pro_icon">
+                                            <a href="{{ route('frontend.destory') }}" class="common_btn">clear cart</a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3 class="text-center my-5">Cart Empty !</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
+                            <h6>total cart</h6>
+                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
+                            <p>delivery: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
+                            <p>discount: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
+                            <p class="total"><span>total:</span> <span>{{ $generalSettings->currency_icon }}00.00</span>
+                            </p>
+
+                        </div>
                     </div>
                 @endif
             </div>
@@ -146,8 +189,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
 @endsection
 @push('scripts')
     <script>
