@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -60,7 +60,10 @@
                                                 </td>
 
                                                 <td class="wsus__pro_status">
-                                                    <h6>{{ $generalSettings->currency_icon . ($item->price + $item->options->variantsTotalPrice) }}
+                                                    <h6>
+                                                        {{ $generalSettings->currency_icon }}
+                                                        <span
+                                                            id="total-{{ $item->rowId }}">{{ $item->price + $item->options->variantsTotalPrice }}</span>
                                                     </h6>
                                                 </td>
 
@@ -143,8 +146,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
 @endsection
 @push('scripts')
     <script>
@@ -152,6 +155,17 @@
             // Incremert Qty
             $('.increment-qty').on('click', function(e) {
                 e.preventDefault(); // Prevent default action if it's a form or button                
+                updateQty(1);
+            });
+
+            // Decrement Qty
+            $('.decrement-qty').on('click', function(e) {
+                e.preventDefault(); // Prevent default action if it's a form or button      
+                updateQty(-1);
+
+            });
+
+            function updateQty(change) {
                 let qtyInput = $('#qty'); // Get the input field
                 let qty = parseInt(qtyInput.val(), 10); // Convert value to an integer
 
@@ -160,8 +174,13 @@
                     return;
                 }
 
+                if (qty <= 1 && change < 0) {
+                    alert('qty can not be less than 1');
+                    return;
+                }
+
                 let rowId = $('#rowId').data('rowid');
-                qty += 1; // Increment quantity
+                qty += change; // Increment quantity
                 qtyInput.val(qty); // Update the input field with the new value
 
                 $.ajax({
@@ -174,58 +193,20 @@
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            // alert(response.message);                        
+                            // alert(response.message);     
+                            console.log(response.updatedPrice);
+                            let totalElm = '#total-' + response.rowId;
+                            $(totalElm).text(response.updatedPrice);
                         } else {
-                            console.log(response.status);
+                            console.log(response.error);
+
                         }
                     },
                     error: function(xhr) {
                         console.log('Something went wrong!');
                     }
                 });
-
-            });
-
-            // Decrement Qty
-            $('.decrement-qty').on('click', function(e) {
-                e.preventDefault(); // Prevent default action if it's a form or button                
-                let qtyInput = $('#qty'); // Get the input field
-                let qty = parseInt(qtyInput.val(), 10); // Convert value to an integer
-
-                if (isNaN(qty)) {
-                    alert('Invalid quantity');
-                    return;
-                }
-
-                let rowId = $('#rowId').data('rowid');
-                if (qty > 1) {
-                    qty -= 1; // Increment quantity
-                    qtyInput.val(qty); // Update the input field with the new value
-                } else {
-                    alert('the quantety is 1');
-                }
-
-                $.ajax({
-                    url: "{{ route('frontend.updateQty') }}", // Your route for updating qty
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-                        rowId: rowId,
-                        qty: qty
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // alert(response.message);                        
-                        } else {
-                            console.log(response.status);
-                        }
-                    },
-                    error: function(xhr) {
-                        console.log('Something went wrong!');
-                    }
-                });
-
-            });
+            }
         });
     </script>
 @endpush

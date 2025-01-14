@@ -42,6 +42,8 @@ Route::name('frontend.')
         Route::get('destroy-cart', [CartController::class, 'destroy'])->name('destory');
         // Update qty item in cart
         Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
+        // Get total price after update qty
+        Route::post('cart/total', [CartController::class, 'updateTotalPrice'])->name('totalPrice');
     });
 
 // Frontend Dashboard Routes

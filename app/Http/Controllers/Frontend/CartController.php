@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use PhpParser\Node\Stmt\TryCatch;
 
+use function PHPUnit\Framework\isNull;
+
 class CartController extends Controller
 {
 
@@ -188,11 +190,16 @@ class CartController extends Controller
             // Optionally, retrieve updated cart details
             $cartItem = Cart::get($request->rowId);
 
+            $product = Product::findOrFail($cartItem->id);
+            $updatedPrice = $this->calculateProductPrice($product, $request->qty, $cartItem->options->variantsTotalPrice);
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Updated Successfully',
                 'cartItem' => $cartItem, // Include updated cart item
                 'total' => Cart::total(), // Include updated cart total
+                'updatedPrice' => $updatedPrice, // Send updated price
+                'rowId' => $request->rowId // Return rowId to identify the correct item
             ]);
         } catch (\Throwable $th) {
             return response()->json([
@@ -203,9 +210,13 @@ class CartController extends Controller
         }
     }
 
-
-    private function calculateProductPrice($product, $qty)
+    private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
     {
+        if (isNull($variantsTotalPrice)) {
+            return checkDiscount($product)
+                ? ($product->offer_price + $variantsTotalPrice) * $qty
+                : ($product->price + $variantsTotalPrice) * $qty;
+        }
         return checkDiscount($product)
             ? ($product->offer_price * $qty)
             : ($product->price * $qty);

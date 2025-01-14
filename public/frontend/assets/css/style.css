@@ -4332,9 +4332,10 @@ CART VIEW PAGE START
 }
 
 .wsus__pro_status span {
-    text-transform: capitalize;
+    /* text-transform: capitalize;
     color: #dc3545 !important;
-    display: inline-block;
+    display: inline-block; */
+    font-weight: bold;    
 }
 
 .wsus__cart_list .wsus__pro_select {
