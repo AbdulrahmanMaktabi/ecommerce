@@ -37,7 +37,7 @@
                         <li><a href="wishlist.html"><i class="fal fa-heart"></i><span>05</span></a></li>
                         <li><a href="compare.html"><i class="fal fa-random"></i><span>03</span></a></li>
                         <li><a class="wsus__cart_icon" href="{{ route('frontend.cart.index') }}"><i
-                                    class="fal fa-shopping-bag"></i><span>04</span></a></li>
+                                    class="fal fa-shopping-bag"></i><span>{{ Cart::content()->count() }}</span></a></li>
                     </ul>
                 </div>
             </div>
