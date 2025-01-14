@@ -8,7 +8,7 @@
             </div>
             <div class="col-xl-2 col-7 col-md-8 col-lg-2">
                 <div class="wsus_logo_area">
-                    <a class="wsus__header_logo" href="index.html">
+                    <a class="wsus__header_logo" href="{{ route('frontend.home') }}">
                         <img src="{{ asset('frontend/assets') }}/images/logo_2.png" alt="logo"
                             class="img-fluid w-100">
                     </a>
@@ -36,7 +36,7 @@
                     <ul class="wsus__icon_area">
                         <li><a href="wishlist.html"><i class="fal fa-heart"></i><span>05</span></a></li>
                         <li><a href="compare.html"><i class="fal fa-random"></i><span>03</span></a></li>
-                        <li><a class="wsus__cart_icon" href="#"><i
+                        <li><a class="wsus__cart_icon" href="{{ route('frontend.cart.index') }}"><i
                                     class="fal fa-shopping-bag"></i><span>04</span></a></li>
                     </ul>
                 </div>

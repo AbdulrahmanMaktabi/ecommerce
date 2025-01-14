@@ -46,7 +46,7 @@
                     </ul>
 
                     <ul class="wsus__menu_item">
-                        <li><a class="active" href="index.html">home</a></li>
+                        <li><a class="active" href="{{ route('frontend.home') }}">home</a></li>
                         <li><a href="product_grid_view.html">shop <i class="fas fa-caret-down"></i></a>
                             <div class="wsus__mega_menu">
                                 <div class="row">
@@ -138,8 +138,12 @@
                     </ul>
                     <ul class="wsus__menu_item wsus__menu_item_right">
                         <li><a href="contact.html">contact</a></li>
-                        <li><a href="dsahboard.html">my account</a></li>
-                        <li><a href="{{ route('login') }}">login</a></li>
+                        @auth
+                            <li><a href="{{ route('user.profile') }}">my account</a></li>
+                        @endauth
+                        @guest
+                            <li><a href="{{ route('login') }}">login</a></li>
+                        @endguest
                     </ul>
                 </div>
             </div>

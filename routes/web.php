@@ -36,14 +36,18 @@ Route::name('frontend.')
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
 
         Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
-        // Cart Page
-        Route::get('cart', [CartController::class, 'cart'])->name('cart');
-        // Testing only
-        Route::get('car/destory', [CartController::class, 'destroy'])->name('destory');
-        // Update qty item in cart
-        Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
-        // Get total price after update qty
-        Route::post('cart/total', [CartController::class, 'updateTotalPrice'])->name('totalPrice');
+
+        Route::name('cart.')
+            ->group(function () {
+                // Cart Page
+                Route::get('cart', [CartController::class, 'cart'])->name('index');
+                // Testing only
+                Route::get('car/destory', [CartController::class, 'destroy'])->name('destory');
+                // Update qty item in cart
+                Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
+                // Get total price after update qty
+                Route::post('cart/total', [CartController::class, 'updateTotalPrice'])->name('totalPrice');
+            });
     });
 
 // Frontend Dashboard Routes
