@@ -176,6 +176,21 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    // Delete Item in cart
+    public function delete($rowId)
+    {
+        try {
+            Cart::remove($rowId);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid rowId',
+                'rowId' => $rowId,
+            ]);
+        }
+        return redirect()->back();
+    }
+
     // update qty
     public function updateQty(Request $request)
     {

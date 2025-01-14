@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -38,7 +38,8 @@
 
 
                                             <th class="wsus__pro_icon">
-                                                <a href="{{ route('frontend.destory') }}" class="common_btn">clear cart</a>
+                                                <a href="{{ route('frontend.cart.destroy') }}" class="common_btn">clear
+                                                    cart</a>
                                             </th>
                                         </tr>
                                         @foreach ($cart as $item)
@@ -77,7 +78,9 @@
                                                 </td>
 
                                                 <td class="wsus__pro_icon">
-                                                    <a href="#"><i class="far fa-times"></i></a>
+                                                    <a
+                                                        href="{{ route('frontend.cart.delete', ['rowId' => $item->rowId]) }}"><i
+                                                            class="far fa-times"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -133,7 +136,8 @@
 
 
                                         <th class="wsus__pro_icon">
-                                            <a href="{{ route('frontend.destory') }}" class="common_btn">clear cart</a>
+                                            <a href="{{ route('frontend.cart.destroy') }}" class="common_btn">clear
+                                                cart</a>
                                         </th>
                                     </tr>
                                 </tbody>
@@ -189,8 +193,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
 @endsection
 @push('scripts')
     <script>
@@ -227,7 +231,7 @@
                 qtyInput.val(qty); // Update the input field with the new value
 
                 $.ajax({
-                    url: "{{ route('frontend.updateQty') }}", // Your route for updating qty
+                    url: "{{ route('frontend.cart.updateQty') }}", // Your route for updating qty
                     method: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token

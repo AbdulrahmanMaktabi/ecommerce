@@ -41,8 +41,10 @@ Route::name('frontend.')
             ->group(function () {
                 // Cart Page
                 Route::get('cart', [CartController::class, 'cart'])->name('index');
-                // Testing only
-                Route::get('car/destory', [CartController::class, 'destroy'])->name('destory');
+                // Delete All Items in Cart
+                Route::get('car/destroy', [CartController::class, 'destroy'])->name('destroy');
+                // Delete Specific item in cart
+                Route::get('cart/delete/{rowId}', [CartController::class, 'delete'])->name('delete');
                 // Update qty item in cart
                 Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
                 // Get total price after update qty
