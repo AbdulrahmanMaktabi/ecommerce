@@ -16,16 +16,7 @@ $(function () {
         });
     }
 
-
-    //*==========MINI CART==========  
-    $('.wsus__cart_icon').on('click', function () {
-        $('.wsus__mini_cart').addClass('.show_cart');
-    });
-
-    $('.wsus_close_mini_cart').on('click', function () {
-        $('.wsus__mini_cart').removeClass('.show_cart');
-    });
-
+    // remove mini cart
 
     // ======CATEGORY MENU======  
     $('.wsus_menu_category_bar').on('click', function () {
