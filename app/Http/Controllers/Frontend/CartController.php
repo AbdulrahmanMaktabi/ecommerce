@@ -244,6 +244,7 @@ class CartController extends Controller
     private function checkkQty(Product $product, $qty)
     {
         if ($product->qty <= 0) return false;
+
         return $product->qty >= $qty ? true : false;
     }
 }
