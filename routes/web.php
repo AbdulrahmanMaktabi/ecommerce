@@ -35,12 +35,13 @@ Route::name('frontend.')
         // 
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
 
-        Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
 
         Route::name('cart.')
             ->group(function () {
                 // Cart Page
                 Route::get('cart', [CartController::class, 'cart'])->name('index');
+                // Add to cart
+                Route::post('cart/add', [CartController::class, 'addToCart'])->name('add');
                 // Delete All Items in Cart
                 Route::get('car/destroy', [CartController::class, 'destroy'])->name('destroy');
                 // Delete Specific item in cart

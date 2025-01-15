@@ -1,8 +1,8 @@
 @extends('frontend.layouts.master')
 @section('content')
     <!--==========================
-                   PRODUCT MODAL VIEW START
-                   ===========================-->
+                           PRODUCT MODAL VIEW START
+                           ===========================-->
     <section class="product_popup_modal">
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
@@ -105,11 +105,11 @@
         </div>
     </section>
     <!--==========================
-                   PRODUCT MODAL VIEW END
-                   ===========================-->
+                           PRODUCT MODAL VIEW END
+                           ===========================-->
     <!--============================
-                   BREADCRUMB START
-                   ==============================-->
+                           BREADCRUMB START
+                           ==============================-->
     <section id="wsus__breadcrumb">
         <div class="wsus_breadcrumb_overlay">
             <div class="container">
@@ -126,11 +126,11 @@
         </div>
     </section>
     <!--============================
-                   BREADCRUMB END
-                   ==============================-->
+                           BREADCRUMB END
+                           ==============================-->
     <!--============================
-                   PRODUCT DETAILS START
-                   ==============================-->
+                           PRODUCT DETAILS START
+                           ==============================-->
     <section id="wsus__product_details">
         <div class="container">
             <div class="wsus__details_bg">
@@ -687,12 +687,12 @@
         </div>
     </section>
     <!--============================
-                   PRODUCT DETAILS END
-                   ==============================-->
+                           PRODUCT DETAILS END
+                           ==============================-->
     <!--============================
-                   RELATED PRODUCT START
-                   
-                   ==============================-->
+                           RELATED PRODUCT START
+                           
+                           ==============================-->
     @if (isset($subCategory))
         <section id="wsus__flash_sell">
             <div class="container">
@@ -753,8 +753,8 @@
         </section>
     @endif
     <!--============================
-                   RELATED PRODUCT END
-                   ==============================-->
+                           RELATED PRODUCT END
+                           ==============================-->
     @push('scripts')
         {{-- let authUser = "{{ Auth::user()->id }}"; --}}
         <script>
@@ -771,9 +771,7 @@
                     // Send AJAX request
                     $.ajax({
                         method: 'POST',
-                        url: "{{ route('frontend.addToCart') }}", // Use Blade to generate the URL
-                        // data: formData + '&_token=' + csrfToken + "&userID=" + authUser +
-                        //     "&productID=" + productID,
+                        url: "{{ route('frontend.cart.add') }}", // Use Blade to generate the URL                    
                         data: formData + '&_token=' + csrfToken + "&productID=" + productID,
                         success: function(response) {
                             console.log('Server Response:', response);
