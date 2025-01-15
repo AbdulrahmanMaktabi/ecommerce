@@ -116,6 +116,10 @@ class CartController extends Controller
             return response()->json(['error' => 'Product not found.'], 404);
         }
 
+        if (!$this->checkkQty($product, $request->qty)) {
+            return response()->json(['error' => 'Product qty can not be greater then qty.'], 404);
+        }
+
         $variants = [];
         $variantsTotalPrice = 0;
 
@@ -235,5 +239,10 @@ class CartController extends Controller
         return checkDiscount($product)
             ? ($product->offer_price * $qty)
             : ($product->price * $qty);
+    }
+
+    private function checkkQty(Product $product, $qty)
+    {
+        return $product->qty >= $qty ? true : false;
     }
 }
