@@ -5,6 +5,7 @@
 // for sidebar activation 
 
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 function setActive($route)
 {
@@ -43,4 +44,9 @@ function checkDiscount(Product $product)
 {
     // Check if offerPrice is set and greater than 0
     return $product->offer_price && $product->offer_price > 0;
+}
+
+function getTotalCartAmout()
+{
+    return Cart::total(2, '.', ',') - Cart::tax(2, '.', ',');
 }

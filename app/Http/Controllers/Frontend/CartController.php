@@ -229,6 +229,13 @@ class CartController extends Controller
         }
     }
 
+    public function subTotal()
+    {
+        return response()->json(
+            ['status'  => 'success', 'data' => getTotalCartAmout()]
+        );
+    }
+
     private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
     {
         if (isNull($variantsTotalPrice)) {

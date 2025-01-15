@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -93,10 +93,14 @@
                     <div class="col-xl-3">
                         <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                             <h6>total cart</h6>
-                            <p>subtotal: <span>$124.00</span></p>
-                            <p>delivery: <span>$00.00</span></p>
-                            <p>discount: <span>$10.00</span></p>
-                            <p class="total"><span>total:</span> <span>$134.00</span></p>
+                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}
+                                    <span class="sub-total">{{ getTotalCartAmout() }}</span>
+                                </span></p>
+                            <p>delivery: <span>{{ $generalSettings->currency_icon }}</span></p>
+                            <p>discount: <span>{{ $generalSettings->currency_icon }}</span></p>
+                            <p class="total"><span>total:</span>
+                                <span>{{ $generalSettings->currency_icon . getTotalCartAmout() }}</span>
+                            </p>
 
                             <form>
                                 <input type="text" placeholder="Coupon Code">
@@ -148,7 +152,7 @@
                     <div class="col-xl-3">
                         <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                             <h6>total cart</h6>
-                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
+                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}</span></p>
                             <p>delivery: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
                             <p>discount: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
                             <p class="total"><span>total:</span> <span>{{ $generalSettings->currency_icon }}00.00</span>
@@ -193,8 +197,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ==============================-->
 @endsection
 @push('scripts')
     <script>
@@ -203,13 +207,14 @@
             $('.increment-qty').on('click', function(e) {
                 e.preventDefault(); // Prevent default action if it's a form or button                
                 updateQty(1);
+                updateSubTotal();
             });
 
             // Decrement Qty
             $('.decrement-qty').on('click', function(e) {
                 e.preventDefault(); // Prevent default action if it's a form or button      
                 updateQty(-1);
-
+                updateSubTotal();
             });
 
             function updateQty(change) {
@@ -244,6 +249,30 @@
                             console.log(response.updatedPrice);
                             let totalElm = '#total-' + response.rowId;
                             $(totalElm).text(response.updatedPrice);
+                        } else {
+                            console.log(response.error);
+
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log('Something went wrong!');
+                    }
+                });
+            }
+
+            function updateSubTotal() {
+                $.ajax({
+                    url: "{{ route('frontend.cart.subTotal') }}", // Your route for updating qty
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr(
+                            'content'), // CSRF token                        
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            // alert(response.message);     
+                            console.log(response);
+                            let subTotal = $('.sub-total').text(response.data);
                         } else {
                             console.log(response.error);
 
