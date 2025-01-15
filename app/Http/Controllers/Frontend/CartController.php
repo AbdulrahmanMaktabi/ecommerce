@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Coupon;
+use App\Models\CouponUsage;
 use App\Models\ProductVariantIem;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use function PHPUnit\Framework\isNull;
 
@@ -232,10 +237,78 @@ class CartController extends Controller
     public function subTotal()
     {
         return response()->json(
-            ['status'  => 'success', 'data' => getTotalCartAmout()]
+            ['status'  => 'success', 'data' => getTotalCartAmount()]
         );
     }
 
+    // Coupon Logic
+    public function coupon(Request $request)
+    {
+        $request->validate([
+            'coupon' => ['required', 'exists:coupons,code'],
+            'userId' => ['required', 'exists:users,id']
+        ]);
+
+
+        // Validate Coupon First
+        $result = Coupon::validateCoupon($request->coupon, $request->userId);
+
+        // Checking the resulet of validation
+        if (!$result['status']) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $result['message'],
+            ], 400);
+        }
+
+        // update the db
+        CouponUsage::updateOrCreate(
+            ['user_id' => $request->userId, 'coupon_id' => $result['coupon']->id],
+            ['uses' => DB::raw('uses + 1')] // count 1 on uses column
+        );
+
+        // Session
+        Session::put('coupon', $result['coupon']);
+
+        // return success response
+        return response()->json([
+            'status' => 'success',
+            'message' => $result['message'],
+            'coupon' => $result['coupon'],
+        ]);
+    }
+
+    // Calculate Coupon discount    
+    public function calculateCouponDiscount()
+    {
+        $subtotal = getTotalCartAmount();
+
+        // Check if a coupon is applied
+        $coupon = Session::get('coupon');
+
+        if (!$coupon) {
+            return 34; // No discount if no coupon is applied
+        }
+
+        // return $appliedCoupon->status;
+        if (!$coupon || $coupon->status == 0) {
+            Session::forget('applied_coupon'); // Clear invalid or inactive coupon from session
+            return 54; // No discount for invalid coupon
+        }
+
+        if ($coupon->discount_type == 'amount') {
+            $discount = $coupon->discount_amount; // Flat discount
+        } elseif ($coupon->discount_type == 'percentage') {
+            $discount = $subtotal * ($coupon->discount_amount / 100); // Percentage discount
+        } else {
+            $discount = 0;
+        }
+
+        // Ensure discount does not exceed the subtotal        
+        return min($discount, $subtotal);
+    }
+
+    // Calculate sub total
     private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
     {
         if (isNull($variantsTotalPrice)) {
@@ -248,6 +321,31 @@ class CartController extends Controller
             : ($product->price * $qty);
     }
 
+    // Calculate Total
+    public function calculateTotal()
+    {
+        $subtotal = Cart::subtotal(); // Subtotal excluding tax
+        $tax = Cart::tax(); // Tax amount
+
+        // Calculate the discount using the coupon function
+        $discount = $this->calculateCouponDiscount($subtotal);
+
+        // Calculate the final total
+        $final = $subtotal - $discount;
+        // $finalTotal = $finalSubtotal + $tax; // Add tax back to the discounted subtotal
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success',
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'discount' => $discount,
+            'total' => $final,
+        ]);
+        return [];
+    }
+
+    // Check Quentety
     private function checkkQty(Product $product, $qty)
     {
         if ($product->qty <= 0) return false;

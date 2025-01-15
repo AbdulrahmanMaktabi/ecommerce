@@ -50,6 +50,12 @@ Route::name('frontend.')
                 Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
                 // Get total price after update qty
                 Route::post('cart/sub-total', [CartController::class, 'subTotal'])->name('subTotal');
+                // Calculate Total Amount
+                Route::post('cart/total', [CartController::class, 'calculateTotal'])->name('calculateTotal');
+                // Coupon
+                Route::post('cart/coupon', [CartController::class, 'coupon'])->name('coupon');
+                // Caclculate Applied Coupon
+                Route::post('cart/coupon/apply', [CartController::class, 'calculateCouponDiscount'])->name('calculateCouponDiscount');
             });
     });
 

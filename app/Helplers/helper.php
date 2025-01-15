@@ -46,7 +46,7 @@ function checkDiscount(Product $product)
     return $product->offer_price && $product->offer_price > 0;
 }
 
-function getTotalCartAmout()
+function getTotalCartAmount()
 {
     return Cart::total(2, '.', ',') - Cart::tax(2, '.', ',');
 }
