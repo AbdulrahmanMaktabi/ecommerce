@@ -26,6 +26,7 @@ class Category extends Model
         return $query->where('status', $status);
     }
 
+
     // public static function booted()
     // {
     //     static::addGlobalScope(new ActiveCategoriesScope());

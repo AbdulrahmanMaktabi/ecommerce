@@ -12,15 +12,42 @@ class ProductController extends Controller
 {
     public function index($slug)
     {
-        $product = Product::status(1)
-            ->with(['category', 'brand', 'vendor', 'imageGallery', 'variants'])
-            ->where('slug', $slug)
-            ->first();
+        try {
+            $product = Product::status(1)
+                ->with([
+                    'category',
+                    'brand',
+                    'vendor',
+                    'imageGallery',
+                    'variants' => function ($query) {
+                        $query->where('status', 1); // Only include active variants
+                    }
+                ])
+                ->whereHas('category', function ($query) {
+                    $query->where('status', 1); // Ensure the category is active
+                })
+                ->whereHas('brand', function ($query) {
+                    $query->where('status', 1); // Ensure the brand is active
+                })
+                ->whereHas('vendor', function ($query) {
+                    $query->where('status', 1); // Ensure the vendor is active
+                })
+                ->where('slug', $slug)
+                ->first();
 
-        $subCategory = SubCategory::status(1)
-            ->findOrFail($product->subCategory->id);
+            if (!$product) {
+                // If no product is found, return an error response or show a custom view
+                return response()->json(['status' => 'error', 'message' => 'The product cannot be found.'], 404);
+            }
 
-        return view('frontend.pages.product', get_defined_vars());
+            $subCategory = SubCategory::status(1)
+                ->findOrFail($product->subCategory->id);
+
+            return view('frontend.pages.product', compact('product', 'subCategory'));
+        } catch (\Throwable $th) {
+
+            return response()->json(['status' => 'error', 'message' => 'An unexpected error occurred.'], 500);
+        }
     }
 
     public function getVariantPrice(Request $request)

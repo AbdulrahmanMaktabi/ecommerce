@@ -15,6 +15,9 @@
                 </div>
             </div>
             @if (count($flashSale->items) > 0)
+                @php
+                    $flashSale->items;
+                @endphp
                 @foreach ($flashSale->items as $item)
                     <div class="row flash_sell_slider">
                         <div class="col-xl-3 col-sm-6 col-lg-4">

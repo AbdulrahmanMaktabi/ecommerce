@@ -21,4 +21,9 @@ class ProductVariant extends Model
     {
         return $this->hasMany(ProductVariantIem::class);
     }
+
+    public function scopeStatus($query, $status = true)
+    {
+        return $query->where('status', $status);
+    }
 }

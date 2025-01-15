@@ -14,6 +14,11 @@ class HomeController extends Controller
         $sliders = Slider::where('status', '1')->orderBy('serial', 'asc')->get();
 
         $flashSale = FlashSale::status(true)
+            ->with(['items' => function ($query) {
+                $query->whereHas('product.category', function ($q) {
+                    $q->where('status', 1); // Ensure the category is active
+                });
+            }])
             ->showOnHome(true)
             ->where('name', '2025 Flash')
             ->first();
