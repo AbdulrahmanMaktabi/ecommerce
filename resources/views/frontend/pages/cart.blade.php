@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -90,15 +90,23 @@
                             </div>
                         </div>
                     </div>
+                    {{-- Sidebar --}}
                     <div class="col-xl-3">
                         <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                             <h6>total cart</h6>
                             <p>subtotal: <span>{{ $generalSettings->currency_icon }}
                                     <span class="sub-total">{{ getTotalCartAmount() }}</span>
                                 </span></p>
-                            <p>delivery: <span>{{ $generalSettings->currency_icon }}</span></p>
-                            <p>discount: <span>{{ $generalSettings->currency_icon }}</span></p>
-                            <p class="total"><span>total:</span>
+                            <p>delivery:
+                                <span>{{ $generalSettings->currency_icon }}</span>
+                            </p>
+                            <p>discount:
+                                <span>{{ $generalSettings->currency_icon }}
+                                    <span class="cart-discount"></span>
+                                </span>
+                            </p>
+                            <p class="total">
+                                <span>total:</span>
                                 <span>{{ $generalSettings->currency_icon }} <span class="cart-total"></span></span>
                             </p>
 
@@ -113,53 +121,8 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-xl-9">
-                        <div class="wsus__cart_list">
-                            <table>
-                                <tbody>
-                                    <tr class="d-flex ">
-                                        <th class="wsus__pro_img">
-                                            product item
-                                        </th>
-
-                                        <th class="wsus__pro_name">
-                                            product details
-                                        </th>
-
-                                        <th class="wsus__pro_tk">
-                                            price
-                                        </th>
-
-                                        <th class="wsus__pro_status">
-                                            Total Price
-                                        </th>
-
-                                        <th class="wsus__pro_select">
-                                            quantity
-                                        </th>
-
-
-                                        <th class="wsus__pro_icon">
-                                            <a href="{{ route('frontend.cart.destroy') }}" class="common_btn">clear
-                                                cart</a>
-                                        </th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h3 class="text-center my-5">Cart Empty !</h3>
-                        </div>
-                    </div>
-                    <div class="col-xl-3">
-                        <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
-                            <h6>total cart</h6>
-                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}</span></p>
-                            <p>delivery: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
-                            <p>discount: <span>{{ $generalSettings->currency_icon }}00.00</span></p>
-                            <p class="total"><span>total:</span> <span>{{ $generalSettings->currency_icon }}00.00</span>
-                            </p>
-
-                        </div>
-                    </div>
+                    <h1>There is no thing here !!
+                    </h1>
                 @endif
             </div>
         </div>
@@ -197,8 +160,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ==============================-->
 @endsection
 @push('scripts')
     <script>
@@ -289,6 +252,7 @@
             }
         });
 
+        // Coupon 
         $('.coupon-form').on('submit', function(e) {
             e.preventDefault(); // Prevent form submission
 
@@ -319,8 +283,10 @@
             });
         });
 
+        // Calculate the cart total | cart sidebar 
         function calcTotal() {
             let cartTotla = $('.cart-total');
+            let cartDiscount = $('.cart-discount');
             $.ajax({
                 url: "{{ route('frontend.cart.calculateTotal') }}", // Your route for updating qty
                 method: 'POST',
@@ -331,6 +297,7 @@
                 success: function(response) {
                     console.log(response);
                     cartTotla.text(response.total);
+                    cartDiscount.text(response.discount);
                 },
                 error: function(xhr) {
                     console.log('Something went wrong!');

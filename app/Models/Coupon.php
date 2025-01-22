@@ -39,7 +39,7 @@ class Coupon extends Model
         }
 
         // Check expiration date
-        if ($coupon->expiry_date && Carbon::now()->gt($coupon->expiry_date)) {
+        if ($coupon->end_date && Carbon::now()->gt($coupon->end_date)) {
             return [
                 'status' => false,
                 'message' => 'This coupon has expired.',

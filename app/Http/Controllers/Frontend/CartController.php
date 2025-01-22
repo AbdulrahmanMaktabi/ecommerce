@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\CouponUsage;
+use App\Models\FlashSaleItem;
 use App\Models\ProductVariantIem;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -18,93 +19,6 @@ use function PHPUnit\Framework\isNull;
 
 class CartController extends Controller
 {
-
-    public function __old_addToCart(Request $request)
-    {
-        // Find the product
-        try {
-            $product = Product::findOrFail($request->productID);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => 'Product not found or an unexpected error occurred.'
-            ], 404); // Return a 404 status code for "not found"
-        }
-
-        // Initialize variants and calculate total variant price
-        $variants = [];
-        $variantsTotalAmount = 0;
-        $productTotalPrice = 0;
-
-        // Prepare cart data
-        $cartItem = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'qty' => $request->qty,
-            'price' => $productTotalPrice,
-        ];
-
-        try {
-            if (isset($request->variants)) {
-                foreach ($request->variants as $item_id) {
-                    $variantItem = ProductVariantIem::findOrFail($item_id);
-                    $variants[$variantItem->productVariant->name]['name'] = $variantItem->name;
-                    $variants[$variantItem->productVariant->name]['price'] = $variantItem->price;
-                    $variantsTotalAmount += $variantItem->price;
-                }
-
-                // Add variants to options if present
-                $cartItem['options'] = [
-                    'variants' => $variants,
-                ];
-
-                // Calculate the total price of the product (including variants)
-                if (checkDiscount($product)) {
-                    $productTotalPrice = ($product->offer_price * $request->qty) + $variantsTotalAmount;
-                } else {
-                    $productTotalPrice = ($product->price * $request->qty) + $variantsTotalAmount;
-                }
-            }
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => 'Variants Error',
-            ], 404);
-        }
-
-
-        // Calculate the total price of the product (including variants)
-        if (checkDiscount($product)) {
-            $productTotalPrice = ($product->offer_price * $request->qty);
-        } else {
-            $productTotalPrice = ($product->price * $request->qty);
-        }
-
-        try {
-            // Add the item to the cart
-            $rowId = Cart::add($cartItem);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'error' => 'Error While Adding Item To Cart',
-            ], 404);
-        }
-
-        // return response()->json(['row_id' => $rowId->rowId], 200);
-        if (isset($rowId)) {
-            // Get the added cart item
-            $addedItem = Cart::get($rowId->rowId);
-        } else {
-            return response()->json(['error' => 'The Cart No Have Any Item'], 404);
-        }
-
-        if ($addedItem) {
-            // Return a JSON response with the cart item
-            return response()->json([
-                'success' => true,
-                'message' => 'Item added to cart successfully!',
-                'cartItem' => $addedItem,
-            ]);
-        }
-    }
-
     // Optimized Version Of add To Cart() function
     public function addToCart(Request $request)
     {
@@ -113,6 +27,7 @@ class CartController extends Controller
             'qty' => 'required|integer|min:1',
             'variants' => 'nullable|array',
             'variants.*' => 'required_with:variants|exists:product_variant_iems,id',
+            'flashSale_discount' => 'nullable|numeric|min:1',
         ]);
 
         try {
@@ -145,6 +60,14 @@ class CartController extends Controller
 
         $productPrice = $this->calculateProductPrice($product, $request->qty);
 
+        try {
+            $flashSaleItem = FlashSaleItem::firstWhere('product_id', $request->productID);
+            $flashSaleDiscount = $flashSaleItem ? $flashSaleItem->discounted_price : null;
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred while retrieving the Flash Sale Item'], 422);
+        }
+
+
         $cartItem = [
             'id' => $product->id,
             'name' => $product->name,
@@ -157,6 +80,11 @@ class CartController extends Controller
                 'variantsTotalPrice' => $variantsTotalPrice,
             ],
         ];
+
+        // Apply flash sale discount on product
+        if ($flashSaleDiscount) {
+            $cartItem['options']['flashSale_discount'] = $flashSaleDiscount;
+        }
 
         try {
             $rowId = Cart::add($cartItem);
@@ -279,7 +207,7 @@ class CartController extends Controller
     }
 
     // Calculate Coupon discount    
-    public function calculateCouponDiscount()
+    private function calculateCouponDiscount()
     {
         $subtotal = getTotalCartAmount();
 
@@ -287,13 +215,13 @@ class CartController extends Controller
         $coupon = Session::get('coupon');
 
         if (!$coupon) {
-            return 34; // No discount if no coupon is applied
+            return 0; // No discount if no coupon is applied
         }
 
         // return $appliedCoupon->status;
         if (!$coupon || $coupon->status == 0) {
             Session::forget('applied_coupon'); // Clear invalid or inactive coupon from session
-            return 54; // No discount for invalid coupon
+            return 0; // No discount for invalid coupon
         }
 
         if ($coupon->discount_type == 'amount') {
@@ -328,7 +256,7 @@ class CartController extends Controller
         $tax = Cart::tax(); // Tax amount
 
         // Calculate the discount using the coupon function
-        $discount = $this->calculateCouponDiscount($subtotal);
+        $discount = $this->calculateCouponDiscount();
 
         // Calculate the final total
         $final = $subtotal - $discount;
@@ -342,7 +270,6 @@ class CartController extends Controller
             'discount' => $discount,
             'total' => $final,
         ]);
-        return [];
     }
 
     // Check Quentety
