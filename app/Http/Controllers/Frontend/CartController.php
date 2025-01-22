@@ -252,8 +252,8 @@ class CartController extends Controller
     // Calculate Total
     public function calculateTotal()
     {
-        $subtotal = Cart::subtotal(); // Subtotal excluding tax
-        $tax = Cart::tax(); // Tax amount
+        $subtotal = (float) str_replace(',', '', Cart::subtotal(2, '.', ','));
+        $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
 
         // Calculate the discount using the coupon function
         $discount = $this->calculateCouponDiscount();

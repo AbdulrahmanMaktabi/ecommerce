@@ -18,6 +18,7 @@ function setActive($route)
 
 function discountPercentage($originalPrice, $discountedPrice)
 {
+    if ($originalPrice == 0 || $discountedPrice == 0) return 0;
     $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
     return intval($discountPercentage); // Returns only the integer part
 }
@@ -48,5 +49,8 @@ function checkDiscount(Product $product)
 
 function getTotalCartAmount()
 {
-    return Cart::total(2, '.', ',') - Cart::tax(2, '.', ',');
+    $total = (float) str_replace(',', '', Cart::total(2, '.', ','));
+    $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
+
+    return $total - $tax;
 }
