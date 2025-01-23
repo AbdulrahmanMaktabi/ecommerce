@@ -1,11 +1,10 @@
 <?php
 
-// namespace App\Helpers;
-
-// for sidebar activation 
-
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 function setActive($route)
 {
@@ -14,6 +13,8 @@ function setActive($route)
             if (request()->routeIs($r)) return 'active';
         }
     }
+
+    if (request()->routeIs($route)) return 'active';
 }
 
 function discountPercentage($originalPrice, $discountedPrice)
@@ -47,7 +48,7 @@ function checkDiscount(Product $product)
     return $product->offer_price && $product->offer_price > 0;
 }
 
-function getTotalCartAmount()
+function getSubTotalCartAmount()
 {
     $total = (float) str_replace(',', '', Cart::total(2, '.', ','));
     $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));

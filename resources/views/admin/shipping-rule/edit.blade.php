@@ -53,6 +53,13 @@
                                             value="{{ $shippingRule->max_order_value }} ">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Duration</label>
+                                        <input type="text" class="form-control" name="duration"
+                                            value="{{ $shippingRule->duration }} ">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-4"> <label for="">Type</label>

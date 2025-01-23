@@ -37,6 +37,7 @@ class ShippingRulesController extends Controller
             "max_order_value" => ['required', 'numeric', 'gte:min_order_value'], // Ensures max is greater than or equal to min
             "type" => ['required', 'in:flat,weight_based,free,location_based'], // Matches the enum values
             "status" => ['required', 'boolean'],
+            "duration" => ['required', 'numeric', 'min:1'],
         ]);
 
         ShippingRules::create($data);
@@ -77,6 +78,7 @@ class ShippingRulesController extends Controller
             "max_order_value" => ['required', 'numeric', 'gte:min_order_value'],
             "type" => ['required', 'in:flat,weight_based,free,location_based'],
             "status" => ['required', 'boolean'],
+            "duration" => ['required', 'numeric', 'min:1'],
         ]);
 
         $shippingRule->update($data);

@@ -165,7 +165,7 @@ class CartController extends Controller
     public function subTotal()
     {
         return response()->json(
-            ['status'  => 'success', 'data' => getTotalCartAmount()]
+            ['status'  => 'success', 'data' => getSubTotalCartAmount()]
         );
     }
 
@@ -206,10 +206,46 @@ class CartController extends Controller
         ]);
     }
 
+    // Calculate Total
+    public function calculateTotal()
+    {
+        $subtotal = (float) str_replace(',', '', Cart::subtotal(2, '.', ','));
+        $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
+
+        // Calculate the discount using the coupon function
+        $discount = $this->calculateCouponDiscount();
+
+        // Calculate the final total
+        $final = $subtotal - $discount;
+        // $finalTotal = $finalSubtotal + $tax; // Add tax back to the discounted subtotal
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success',
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'discount' => $discount,
+            'total' => $final,
+        ]);
+    }
+
+    // Calculate sub total
+    private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
+    {
+        if (isNull($variantsTotalPrice)) {
+            return checkDiscount($product)
+                ? ($product->offer_price + $variantsTotalPrice) * $qty
+                : ($product->price + $variantsTotalPrice) * $qty;
+        }
+        return checkDiscount($product)
+            ? ($product->offer_price * $qty)
+            : ($product->price * $qty);
+    }
+
     // Calculate Coupon discount    
     private function calculateCouponDiscount()
     {
-        $subtotal = getTotalCartAmount();
+        $subtotal = getSubTotalCartAmount();
 
         // Check if a coupon is applied
         $coupon = Session::get('coupon');
@@ -234,42 +270,6 @@ class CartController extends Controller
 
         // Ensure discount does not exceed the subtotal        
         return min($discount, $subtotal);
-    }
-
-    // Calculate sub total
-    private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
-    {
-        if (isNull($variantsTotalPrice)) {
-            return checkDiscount($product)
-                ? ($product->offer_price + $variantsTotalPrice) * $qty
-                : ($product->price + $variantsTotalPrice) * $qty;
-        }
-        return checkDiscount($product)
-            ? ($product->offer_price * $qty)
-            : ($product->price * $qty);
-    }
-
-    // Calculate Total
-    public function calculateTotal()
-    {
-        $subtotal = (float) str_replace(',', '', Cart::subtotal(2, '.', ','));
-        $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
-
-        // Calculate the discount using the coupon function
-        $discount = $this->calculateCouponDiscount();
-
-        // Calculate the final total
-        $final = $subtotal - $discount;
-        // $finalTotal = $finalSubtotal + $tax; // Add tax back to the discounted subtotal
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Success',
-            'subtotal' => $subtotal,
-            'tax' => $tax,
-            'discount' => $discount,
-            'total' => $final,
-        ]);
     }
 
     // Check Quentety

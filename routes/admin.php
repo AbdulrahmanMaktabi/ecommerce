@@ -92,7 +92,6 @@ Route::prefix('products/seller')
         Route::post('pending/approve/update', [SellerProduct::class, 'updateApprove'])->name('updateApprove');
     });
 
-
 // Flash Sale Controller
 Route::prefix('flash-sale')
     ->name('flashSale.')

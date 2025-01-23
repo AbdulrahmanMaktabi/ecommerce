@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\CheckOutController;
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FlashSaleController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -94,10 +96,26 @@ Route::prefix('user/dashboard')
         Route::put('profile/update/password', 'password')->name('password.update');
     });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Checkout Routes
+    Route::name('checkout.')
+        ->prefix('checkout')
+        ->group(function () {
+            Route::get('/', [CheckOutController::class, 'index'])->name('index');
+            Route::post('address/create', [CheckOutController::class, 'address'])->name('address');
+            Route::post('checkout', [CheckOutController::class, 'checkout'])->name('checkout');
+        });
+
+    // Payment Routs
+    Route::name('payment.')
+        ->prefix('payment')
+        ->group(function () {
+            Route::get('/', [PaymentController::class, 'index'])->name('index');
+        });
 });
 
 require __DIR__ . '/auth.php';
