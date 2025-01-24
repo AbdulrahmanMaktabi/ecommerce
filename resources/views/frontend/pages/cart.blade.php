@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -57,24 +57,38 @@
                                                 </td>
 
                                                 <td class="wsus__pro_tk">
-                                                    <h6>{{ $generalSettings->currency_icon . $item->price }}</h6>
+                                                    @php
+                                                        // dd($item->id);
+                                                    @endphp
+                                                    <h6>{{ $generalSettings->currency_icon . getProductPrice($item->rowId) }}
+                                                    </h6>
                                                 </td>
 
                                                 <td class="wsus__pro_status">
                                                     <h6>
                                                         {{ $generalSettings->currency_icon }}
-                                                        <span
-                                                            id="total-{{ $item->rowId }}">{{ ($item->price + $item->options->variantsTotalPrice) * $item->qty }}</span>
+                                                        <span id="total-{{ $item->rowId }}">
+                                                            {{ getProductPriceTotal($item->rowId, $item->qty) }}
+                                                        </span>
+                                                        {{-- <span
+                                                            id="total-{{ $item->rowId }}">{{ ($item->price + $item->options->variantsTotalPrice) * $item->qty }}</span> --}}
                                                     </h6>
                                                 </td>
 
                                                 <td class="wsus__pro_select">
-                                                    <button type="submit" class="btn btn-danger decrement-qty">-</button>
-                                                    <input type="text" name="qty" id="qty"
+                                                    @php
+                                                        $rowId = $item->rowId;
+                                                    @endphp
+                                                    <button type="submit"
+                                                        class="btn btn-danger decrement-qty-{{ $rowId }}"
+                                                        onclick="updateQtyBasedOnRowId(-1 , '{{ $rowId }}')">-</button>
+                                                    <input type="text" name="qty" class="qty-{{ $rowId }}"
                                                         style="height:37px;width:40px;text-align:center;margin: 0 5px"
                                                         value="{{ $item->qty }}">
-                                                    <button type="submit" class="btn btn-success increment-qty">+</button>
-                                                    <input type="hidden" data-rowid="{{ $item->rowId }}" id="rowId">
+                                                    <button type="submit"
+                                                        class="btn btn-success increment-qty-{{ $rowId }}"
+                                                        onclick="updateQtyBasedOnRowId(1 , '{{ $rowId }}')">+</button>
+                                                    <input type="hidden" data-rowid="{{ $rowId }}" class="rowId">
                                                 </td>
 
                                                 <td class="wsus__pro_icon">
@@ -157,97 +171,157 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
 @endsection
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            // Incremert Qty
-            $('.increment-qty').on('click', function(e) {
-                e.preventDefault(); // Prevent default action if it's a form or button                
-                updateQty(1);
-                updateSubTotal();
-            });
+        function updateQtyBasedOnRowId(value, rowId) {
+            let qtyInput = $('.qty-' + rowId); // Select the input element using its class
+            let qty = parseInt(qtyInput.val(), 10); // Get the current quantity value as an integer
 
-            // Decrement Qty
-            $('.decrement-qty').on('click', function(e) {
-                e.preventDefault(); // Prevent default action if it's a form or button      
-                updateQty(-1);
-                updateSubTotal();
-            });
-
-            function updateQty(change) {
-                let qtyInput = $('#qty'); // Get the input field
-                let qty = parseInt(qtyInput.val(), 10); // Convert value to an integer
-
-                if (isNaN(qty)) {
-                    alert('Invalid quantity');
-                    return;
-                }
-
-                if (qty <= 1 && change < 0) {
-                    alert('qty can not be less than 1');
-                    return;
-                }
-
-                let rowId = $('#rowId').data('rowid');
-                qty += change; // Increment quantity
-                qtyInput.val(qty); // Update the input field with the new value
-
-                $.ajax({
-                    url: "{{ route('frontend.cart.updateQty') }}", // Your route for updating qty
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-                        rowId: rowId,
-                        qty: qty
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // alert(response.message);     
-                            console.log(response.updatedPrice);
-                            let totalElm = '#total-' + response.rowId;
-                            $(totalElm).text(response.updatedPrice);
-                            calcTotal();
-
-                        } else {
-                            console.log(response.error);
-
-                        }
-                    },
-                    error: function(xhr) {
-                        console.log('Something went wrong!');
-                    }
-                });
+            if (isNaN(qty)) {
+                alert('Invalid quantity');
+                return;
             }
 
-            function updateSubTotal() {
-                $.ajax({
-                    url: "{{ route('frontend.cart.subTotal') }}", // Your route for updating qty
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr(
-                            'content'), // CSRF token                        
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            // alert(response.message);     
-                            console.log(response);
-                            let subTotal = $('.sub-total').text(response.data);
-                            calcTotal();
-
-                        } else {
-                            console.log(response.error);
-
-                        }
-                    },
-                    error: function(xhr) {
-                        console.log('Something went wrong!');
-                    }
-                });
+            if (value === 1) {
+                // Increment the quantity
+                qty++;
+            } else if (value === -1 && qty > 1) {
+                // Decrement the quantity only if it's greater than 1
+                qty--;
+            } else if (value === -1 && qty <= 1) {
+                alert('Quantity cannot be less than 1');
+                return;
             }
-        });
+
+            // Update the input field with the new quantity
+            qtyInput.val(qty);
+
+            // Log the updated value for debugging
+            console.log('Updated Quantity for Row ID ' + rowId + ':', qty);
+
+
+            $.ajax({
+                url: "{{ route('frontend.cart.updateQty') }}", // Your route for updating qty
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
+                    rowId: rowId,
+                    qty: qty
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // alert(response.message);     
+                        console.log(response.updatedPrice);
+                        let totalElm = '#total-' + response.rowId;
+                        $(totalElm).text(response.updatedPrice);
+                        calcTotal();
+
+                    } else {
+                        console.log(response.error);
+
+                    }
+                },
+                error: function(xhr) {
+                    console.log('Something went wrong!');
+                }
+            });
+        }
+
+        // oll qty handeler
+        // $(document).ready(function() {
+        //     // Incremert Qty
+        //     $('.increment-qty').on('click', function(e) {
+        //         e.preventDefault(); // Prevent default action if it's a form or button                
+        //         updateQty(1);
+        //         updateSubTotal();
+        //     });
+
+        //     // Decrement Qty
+        //     $('.decrement-qty').on('click', function(e) {
+        //         e.preventDefault(); // Prevent default action if it's a form or button      
+        //         updateQty(-1);
+        //         updateSubTotal();
+        //     });
+
+        //     function updateQtyWithEl(rowId, el) {
+        //         $(el).addClass('test');
+        //         // console.log(rowId, el);
+        //     }
+
+        //     function updateQty(change) {
+
+        //         let qtyInput = $('.qty'); // Get the input field
+        //         let qty = parseInt(qtyInput.val(), 10); // Convert value to an integer
+
+        //         if (isNaN(qty)) {
+        //             alert('Invalid quantity');
+        //             return;
+        //         }
+
+        //         if (qty <= 1 && change < 0) {
+        //             alert('qty can not be less than 1');
+        //             return;
+        //         }
+
+        //         let rowId = $('.rowId').data('rowid');
+        //         // console.log(rowId);
+        //         qty += change; // Increment quantity
+        //         qtyInput.val(qty); // Update the input field with the new value
+
+        //         $.ajax({
+        //             url: "{{ route('frontend.cart.updateQty') }}", // Your route for updating qty
+        //             method: 'POST',
+        //             data: {
+        //                 _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
+        //                 rowId: rowId,
+        //                 qty: qty
+        //             },
+        //             success: function(response) {
+        //                 if (response.status === 'success') {
+        //                     // alert(response.message);     
+        //                     // console.log(response.updatedPrice);
+        //                     let totalElm = '#total-' + response.rowId;
+        //                     $(totalElm).text(response.updatedPrice);
+        //                     calcTotal();
+
+        //                 } else {
+        //                     console.log(response.error);
+
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //                 console.log('Something went wrong!');
+        //             }
+        //         });
+        //     }
+
+        //     function updateSubTotal() {
+        //         $.ajax({
+        //             url: "{{ route('frontend.cart.subTotal') }}", // Your route for updating qty
+        //             method: 'POST',
+        //             data: {
+        //                 _token: $('meta[name="csrf-token"]').attr(
+        //                     'content'), // CSRF token                        
+        //             },
+        //             success: function(response) {
+        //                 if (response.status === 'success') {
+        //                     let subTotal = $('.sub-total').text(response.data);
+        //                     calcTotal();
+
+        //                 } else {
+        //                     console.log(response.error);
+
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //                 console.log('Something went wrong!');
+        //             }
+        //         });
+        //     }
+        // });
 
         // Coupon 
         $('.coupon-form').on('submit', function(e) {
@@ -292,7 +366,8 @@
                         'content'), // CSRF token                        
                 },
                 success: function(response) {
-                    console.log(response);
+                    // back to here
+                    // console.log(response);
                     cartTotla.text(response.total);
                     cartDiscount.text(response.discount);
                 },

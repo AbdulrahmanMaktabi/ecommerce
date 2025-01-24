@@ -1,9 +1,30 @@
 <?php
 
+use App\Models\Product;
+use Gloudemans\Shoppingcart\CartItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
+
+function getProductPrice($rowId)
+{
+    $cartItem = Cart::get($rowId);
+    if (!$cartItem) return response()->json(['status' => false, 'message' => 'there is no cart item found']);
+
+    $flashSaleDiscount = $cartItem->options->flashSale_discount ?? 0;
+    $variantsPrice = $cartItem->options->variantsTotalPrice ?? 0;
+
+    $productPrices = Product::select(['price', 'offer_price'])->where('id', $cartItem->id)->first();
+    $productPrice = $productPrices->offer_price ?? $productPrices->price;
+
+    return ($productPrice + $variantsPrice) - $flashSaleDiscount;
+}
+
+function getProductPriceTotal($rowId, $qty)
+{
+    return getProductPrice($rowId) * $qty;
+}
 
 function getShippingRule($orderValue)
 {
@@ -74,4 +95,15 @@ function calculateTotal()
     // ]);
 
     return $final;
+}
+
+function getShippingPrice()
+{
+    $checkout = Session::get('checkout');
+    if (!$checkout) return response()->json(['status' => false, 'message' => 'there is no checkout found']);
+
+    $shippingRule = $checkout['shippingRule'];
+    if (!$shippingRule) return response()->json(['status' => false, 'message' => 'there is no shipping rule found']);
+
+    return $checkout['shippingRule']->price;
 }

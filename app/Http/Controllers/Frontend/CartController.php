@@ -110,6 +110,14 @@ class CartController extends Controller
     public function destroy()
     {
         Cart::destroy();
+
+        if (Session::has('checkout')) {
+            Session::forget('checkout');
+        }
+
+        if (Session::has('cart')) {
+            Session::forget('cart');
+        }
         return redirect()->back();
     }
 
@@ -142,8 +150,8 @@ class CartController extends Controller
             // Optionally, retrieve updated cart details
             $cartItem = Cart::get($request->rowId);
 
-            $product = Product::findOrFail($cartItem->id);
-            $updatedPrice = $this->calculateProductPrice($product, $request->qty, $cartItem->options->variantsTotalPrice);
+            $updatedPrice = getProductPriceTotal($request->rowId, $request->qty);
+            // $updatedPrice = $this->calculateProductPrice($product, $request->qty, $cartItem->options->variantsTotalPrice);
 
             return response()->json([
                 'status' => 'success',
