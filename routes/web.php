@@ -38,26 +38,29 @@ Route::name('frontend.')
         Route::post('/get-variant-price', [ProductController::class, 'getVariantPrice'])->name('product.getVariantPrice');
 
 
-        Route::name('cart.')
+        Route::prefix('cart')
+            ->name('cart.')
             ->group(function () {
                 // Cart Page
-                Route::get('cart', [CartController::class, 'cart'])->name('index');
+                Route::get('/', [CartController::class, 'cart'])->name('index');
                 // Add to cart
-                Route::post('cart/add', [CartController::class, 'addToCart'])->name('add');
+                Route::post('add', [CartController::class, 'addToCart'])->name('add');
                 // Delete All Items in Cart
-                Route::get('car/destroy', [CartController::class, 'destroy'])->name('destroy');
+                Route::get('destroy', [CartController::class, 'destroy'])->name('destroy');
                 // Delete Specific item in cart
-                Route::get('cart/delete/{rowId}', [CartController::class, 'delete'])->name('delete');
+                Route::get('delete/{rowId}', [CartController::class, 'delete'])->name('delete');
                 // Update qty item in cart
-                Route::post('cart/update/qty', [CartController::class, 'updateQty'])->name('updateQty');
+                Route::post('update/qty', [CartController::class, 'updateQty'])->name('updateQty');
                 // Get total price after update qty
-                Route::post('cart/sub-total', [CartController::class, 'subTotal'])->name('subTotal');
+                Route::post('sub-total', [CartController::class, 'subTotal'])->name('subTotal');
                 // Calculate Total Amount
-                Route::post('cart/total', [CartController::class, 'calculateTotal'])->name('calculateTotal');
+                Route::post('total', [CartController::class, 'calculateTotal'])->name('calculateTotal');
                 // Coupon
-                Route::post('cart/coupon', [CartController::class, 'coupon'])->name('coupon');
+                Route::post('coupon', [CartController::class, 'coupon'])->name('coupon');
                 // Caclculate Applied Coupon
-                Route::post('cart/coupon/apply', [CartController::class, 'calculateCouponDiscount'])->name('calculateCouponDiscount');
+                Route::post('coupon/apply', [CartController::class, 'calculateCouponDiscount'])->name('calculateCouponDiscount');
+                // Count
+                Route::post('count', [CartController::class, 'count'])->name('count');
             });
     });
 

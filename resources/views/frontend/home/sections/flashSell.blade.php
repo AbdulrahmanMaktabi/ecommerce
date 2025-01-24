@@ -116,6 +116,7 @@
                 let formData = $(this).serialize();
                 console.log('formData = ' + formData);
                 let productID = $('')
+                let cartBagIcon = $('#cart-icon');
                 $.ajax({
                     method: 'POST',
                     url: "{{ route('frontend.cart.add') }}",
@@ -123,6 +124,10 @@
                     success: function(response) {
                         console.log(`Form ${formId} Response:`, response);
                         alert('Item added to cart successfully!');
+                        //to do refresh the count of cart realtime
+                        // console.log(cartBagIcon);
+                        // cartBagIcon.innerText = {{ Cart::count() }};
+
                     },
                     error: function(error) {
                         console.error(`Form ${formId} Error:`, error);

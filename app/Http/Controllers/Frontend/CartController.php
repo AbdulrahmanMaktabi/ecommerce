@@ -237,6 +237,12 @@ class CartController extends Controller
         ]);
     }
 
+    // Count of items in cart
+    public function count()
+    {
+        return Cart::count() ?? 0;
+    }
+
     // Calculate sub total
     private function calculateProductPrice($product, $qty, $variantsTotalPrice = null)
     {
