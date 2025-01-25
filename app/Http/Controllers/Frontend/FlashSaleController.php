@@ -11,6 +11,7 @@ class FlashSaleController extends Controller
     public function index()
     {
         $flashSale = FlashSale::status(true)
+            ->notEnded()
             ->showOnHome(true)
             ->where('name', '2025 Flash')
             ->first();

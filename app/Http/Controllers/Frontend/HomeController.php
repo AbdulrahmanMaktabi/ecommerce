@@ -17,6 +17,7 @@ class HomeController extends Controller
         $products = Product::status(true)->get();
 
         $flashSale = FlashSale::status(true)
+            ->notEnded()
             ->with(['items' => function ($query) {
                 $query->whereHas('product.category', function ($q) {
                     $q->where('status', 1); // Ensure the category is active

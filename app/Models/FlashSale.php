@@ -25,4 +25,9 @@ class FlashSale extends Model
     {
         return $query->where('show_on_home', $show);
     }
+
+    public function scopeNotEnded($query)
+    {
+        return $query->where('end_time', '>', now());
+    }
 }

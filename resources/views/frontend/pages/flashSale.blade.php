@@ -1,9 +1,9 @@
 @extends('frontend.layouts.master')
-@if ($flashSale)
+@if (isset($flashSale))
     @section('content')
         <!--============================
-                                                                                                                                                                                        BREADCRUMB START
-                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                        BREADCRUMB START
+                                                                                                                                                                                                                                                                    ==============================-->
         <section id="wsus__breadcrumb">
             <div class="wsus_breadcrumb_overlay">
                 <div class="container">
@@ -20,11 +20,11 @@
             </div>
         </section>
         <!--============================
-                                                                                                                                                                                        BREADCRUMB END
-                                                                                                                                                                                    ==============================-->
+                                                                                                                                                                                                                                                                        BREADCRUMB END
+                                                                                                                                                                                                                                                                    ==============================-->
         <!--============================
-                                                                                                                                                                                    PRODUCT PAGE START
-                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                    PRODUCT PAGE START
+                                                                                                                                                                                                                                                                ==============================-->
         <section id="wsus__product_page">
             <div class="container">
                 <div class="row">
@@ -266,48 +266,92 @@
                                         @if (count($flashSale->items) > 0)
                                             @foreach ($flashSale->items as $item)
                                                 <div class="col-xl-4  col-sm-6">
-                                                    <div class="wsus__product_item">
-                                                        <span class="wsus__new">{{ productStatus($item->product) }}</span>
-                                                        <span
-                                                            class="wsus__minus">-{{ discountPercentage($item->product->price, $item->discounted_price) }}%</span>
-                                                        <a class="wsus__pro_link"
-                                                            href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">
-                                                            <img src="{{ asset($item->product->thumb_image) }}"
-                                                                alt="product" class="img-fluid w-100 img_1" />
-                                                            @if ($item->product->imageGallery[0])
-                                                                <img src="{{ asset($item->product->imageGallery[0]->image) }}"
-                                                                    alt="product" class="img-fluid w-100 img_2" />
-                                                            @endif
-                                                        </a>
-                                                        <ul class="wsus__single_pro_icon">
-                                                            <li><a href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal"><i
-                                                                        class="far fa-eye"></i></a>
-                                                            </li>
-                                                            <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                            <li><a href="#"><i class="far fa-random"></i></a>
-                                                        </ul>
-                                                        <div class="wsus__product_details">
-                                                            <a class="wsus__category"
-                                                                href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->category->name }}
+                                                    <form class="shopping-cart-form"
+                                                        id="shopping-cart-form-{{ $item->product->id }}"
+                                                        data-product="{{ $item->product->slug }}">
+                                                        <input type="hidden" name="productID"
+                                                            value="{{ $item->product->id }}">
+                                                        <input type="hidden" name="qty" value="1">
+                                                        <div class="wsus__product_item">
+                                                            <span
+                                                                class="wsus__new">{{ productStatus($item->product) }}</span>
+                                                            <span
+                                                                class="wsus__minus">-{{ discountPercentage($item->product->price, $item->discounted_price) }}%</span>
+                                                            <a class="wsus__pro_link"
+                                                                href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">
+                                                                <img src="{{ asset($item->product->thumb_image) }}"
+                                                                    alt="product" class="img-fluid w-100 img_1" />
+                                                                @if ($item->product->imageGallery[0])
+                                                                    <img src="{{ asset($item->product->imageGallery[0]->image) }}"
+                                                                        alt="product" class="img-fluid w-100 img_2" />
+                                                                @endif
                                                             </a>
-                                                            <p class="wsus__pro_rating">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star-half-alt"></i>
-                                                                <span>(17 review)</span>
-                                                            </p>
-                                                            <a class="wsus__pro_name"
-                                                                href="#">{{ $item->product->name }}</a>
-                                                            <p class="wsus__price">
-                                                                ${{ $item->product->price - $item->discounted_price }}
-                                                                <del>${{ $item->product->price }}</del>
-                                                            </p>
-                                                            <a class="add_cart" href="#">add to cart</a>
+                                                            <ul class="wsus__single_pro_icon">
+                                                                <li><a href="#" data-bs-toggle="modal"
+                                                                        data-bs-target="#exampleModal"><i
+                                                                            class="far fa-eye"></i></a>
+                                                                </li>
+                                                                <li><a href="#"><i class="far fa-heart"></i></a>
+                                                                </li>
+                                                                <li><a href="#"><i class="far fa-random"></i></a>
+                                                            </ul>
+                                                            <div class="wsus__product_details">
+                                                                <a class="wsus__category"
+                                                                    href="{{ route('frontend.product', ['slug' => $item->product->slug]) }}">{{ $item->product->category->name }}
+                                                                </a>
+                                                                <p class="wsus__pro_rating">
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                    <span>(17 review)</span>
+                                                                </p>
+                                                                <a class="wsus__pro_name"
+                                                                    href="#">{{ $item->product->name }}</a>
+                                                                @if (checkDiscount($item?->product))
+                                                                    <p class="wsus__price">
+                                                                        {{ $generalSettings->currency_icon }}{{ $item->product->offer_price - $item->discounted_price }}
+                                                                        <del>{{ $generalSettings->currency_icon . $item->product->price }}</del>
+                                                                    </p>
+                                                                @else
+                                                                    <p class="wsus__price">
+                                                                        {{ $generalSettings->currency_icon }}{{ $item->product->price - $item->discounted_price }}
+                                                                        <del>{{ $generalSettings->currency_icon . $item->product->price }}</del>
+                                                                    </p>
+                                                                @endif
+                                                                @if (count($item->product->variants) > 0)
+                                                                    <div class="wsus__selectbox">
+                                                                        <div class="row">
+                                                                            @foreach ($item->product->variants as $variant)
+                                                                                <div class="col-xl-6 col-sm-6">
+                                                                                    <h5 class="mb-2">
+                                                                                        {{ $variant->name }}:</h5>
+                                                                                    <select class="select_2"
+                                                                                        name="variants[]"
+                                                                                        data-variant-price="{{ $variant->price }}"
+                                                                                        data-product-id="{{ $item->product->id }}">
+                                                                                        {{-- <option disabled>default select</option> --}}
+                                                                                        @foreach ($variant->variantItems as $option)
+                                                                                            <option
+                                                                                                value="{{ $option->id }}"
+                                                                                                data-price="{{ $option->price }}">
+                                                                                                {{ $option->name }}
+                                                                                                +(${{ $option->price }})
+                                                                                            </option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                                <input type="submit" value="ADD TO CART"
+                                                                    class="add_cart">
+                                                                {{-- <a class="add_cart" href="#">add to cart</a> --}}
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -342,8 +386,44 @@
             </div>
         </section>
         <!--============================
-                                                                                                                                                                                    PRODUCT PAGE END
-                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                    PRODUCT PAGE END
+                                                                                                                                                                                                                                                                ==============================-->
     @endsection
+
+    @push('scripts')
+        <script>
+            // Get the CSRF token value
+            let csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('.shopping-cart-form').on('submit', function(e) {
+                e.preventDefault();
+                let formId = $(this).attr('id');
+                let formData = $(this).serialize();
+                console.log('formData = ' + formData);
+                let productID = $('')
+                let cartBagIcon = $('#cart-icon');
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('frontend.cart.add') }}",
+                    data: formData + '&_token=' + csrfToken,
+                    success: function(response) {
+                        console.log(`Form ${formId} Response:`, response);
+                        alert('Item added to cart successfully!');
+                        //to do refresh the count of cart realtime
+                        // console.log(cartBagIcon);
+                        // cartBagIcon.innerText = {{ Cart::count() }};
+
+                    },
+                    error: function(error) {
+                        console.error(`Form ${formId} Error:`, error);
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        </script>
+    @endpush
+    {{-- <script>
+        let form = $('.shopping-cart-form');
+        console.log(from);
+    </script> --}}
 
 @endif
