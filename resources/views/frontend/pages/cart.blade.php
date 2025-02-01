@@ -4,8 +4,8 @@
 
 @section('content')
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CART VIEW PAGE START
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
     <section id="wsus__cart_view">
         <div class="container">
             <div class="row">
@@ -108,9 +108,12 @@
                     <div class="col-xl-3">
                         <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
                             <h6>total cart</h6>
-                            <p>subtotal: <span>{{ $generalSettings->currency_icon }}
+                            <p>subtotal:
+                                <span>
+                                    {{ $generalSettings->currency_icon }}
                                     <span class="sub-total">{{ getSubTotalCartAmount() }}</span>
-                                </span></p>
+                                </span>
+                            </p>
                             <p>discount:
                                 <span>{{ $generalSettings->currency_icon }}
                                     <span class="cart-discount"></span>
@@ -171,8 +174,8 @@
         </div>
     </section>
     <!--============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CART VIEW PAGE END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ==============================-->
 @endsection
 @push('scripts')
     <script>
@@ -229,99 +232,6 @@
                 }
             });
         }
-
-        // oll qty handeler
-        // $(document).ready(function() {
-        //     // Incremert Qty
-        //     $('.increment-qty').on('click', function(e) {
-        //         e.preventDefault(); // Prevent default action if it's a form or button                
-        //         updateQty(1);
-        //         updateSubTotal();
-        //     });
-
-        //     // Decrement Qty
-        //     $('.decrement-qty').on('click', function(e) {
-        //         e.preventDefault(); // Prevent default action if it's a form or button      
-        //         updateQty(-1);
-        //         updateSubTotal();
-        //     });
-
-        //     function updateQtyWithEl(rowId, el) {
-        //         $(el).addClass('test');
-        //         // console.log(rowId, el);
-        //     }
-
-        //     function updateQty(change) {
-
-        //         let qtyInput = $('.qty'); // Get the input field
-        //         let qty = parseInt(qtyInput.val(), 10); // Convert value to an integer
-
-        //         if (isNaN(qty)) {
-        //             alert('Invalid quantity');
-        //             return;
-        //         }
-
-        //         if (qty <= 1 && change < 0) {
-        //             alert('qty can not be less than 1');
-        //             return;
-        //         }
-
-        //         let rowId = $('.rowId').data('rowid');
-        //         // console.log(rowId);
-        //         qty += change; // Increment quantity
-        //         qtyInput.val(qty); // Update the input field with the new value
-
-        //         $.ajax({
-        //             url: "{{ route('frontend.cart.updateQty') }}", // Your route for updating qty
-        //             method: 'POST',
-        //             data: {
-        //                 _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-        //                 rowId: rowId,
-        //                 qty: qty
-        //             },
-        //             success: function(response) {
-        //                 if (response.status === 'success') {
-        //                     // alert(response.message);     
-        //                     // console.log(response.updatedPrice);
-        //                     let totalElm = '#total-' + response.rowId;
-        //                     $(totalElm).text(response.updatedPrice);
-        //                     calcTotal();
-
-        //                 } else {
-        //                     console.log(response.error);
-
-        //                 }
-        //             },
-        //             error: function(xhr) {
-        //                 console.log('Something went wrong!');
-        //             }
-        //         });
-        //     }
-
-        //     function updateSubTotal() {
-        //         $.ajax({
-        //             url: "{{ route('frontend.cart.subTotal') }}", // Your route for updating qty
-        //             method: 'POST',
-        //             data: {
-        //                 _token: $('meta[name="csrf-token"]').attr(
-        //                     'content'), // CSRF token                        
-        //             },
-        //             success: function(response) {
-        //                 if (response.status === 'success') {
-        //                     let subTotal = $('.sub-total').text(response.data);
-        //                     calcTotal();
-
-        //                 } else {
-        //                     console.log(response.error);
-
-        //                 }
-        //             },
-        //             error: function(xhr) {
-        //                 console.log('Something went wrong!');
-        //             }
-        //         });
-        //     }
-        // });
 
         // Coupon 
         $('.coupon-form').on('submit', function(e) {
