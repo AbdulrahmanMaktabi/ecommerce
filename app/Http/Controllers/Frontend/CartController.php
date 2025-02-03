@@ -221,23 +221,39 @@ class CartController extends Controller
     // Calculate Total
     public function calculateTotal()
     {
-        $subtotal = (float) str_replace(',', '', Cart::subtotal(2, '.', ','));
-        $tax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
+        $cartItems = Cart::content();
 
-        // Calculate the discount using the coupon function
-        $discount = $this->calculateCouponDiscount();
+        $discount = 0;
+        $subtotal = 0;
+        $tax = 0;
+        $total = 0;
 
-        // Calculate the final total
-        $final = $subtotal - $discount;
-        // $finalTotal = $finalSubtotal + $tax; // Add tax back to the discounted subtotal
+        if ($cartItems->isEmpty()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Null Cart',
+                'subtotal' => $subtotal,
+                'tax' => $tax,
+                'discount' => $discount,
+                'total' => $total,
+            ]);
+        }
+
+        foreach ($cartItems as $item) {
+            $subtotal += $item->price;
+            $discount += ($item->options->variantsTotalPrice ?? 0) + ($item->options->flashSale_discount ?? 0);
+            $tax += $item->tax ?? 0;
+
+            $total += ($subtotal - $discount) * $item->qty;
+        }
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Success',
             'subtotal' => $subtotal,
             'tax' => $tax,
             'discount' => $discount,
-            'total' => $final,
+            'total' => $total,
         ]);
     }
 
