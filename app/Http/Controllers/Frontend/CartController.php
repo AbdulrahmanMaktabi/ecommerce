@@ -19,6 +19,10 @@ use function PHPUnit\Framework\isNull;
 
 class CartController extends Controller
 {
+    public function test()
+    {
+        return response()->json(['content' => Cart::content()]);
+    }
     // Optimized Version Of add To Cart() function
     public function addToCart(Request $request)
     {
