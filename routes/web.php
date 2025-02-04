@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', [CartController::class, 'test']);
 // Frontend Routes
 Route::name('frontend.')
     ->group(function () {
