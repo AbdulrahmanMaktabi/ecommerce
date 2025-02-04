@@ -131,29 +131,7 @@
                             <p>shipping fee:
                                 <span>
                                     {{ $generalSettings->currency_icon }}
-                                    @php
-                                        $shippingPriceStatus = getShippingPrice();
-
-                                        if (
-                                            is_object($shippingPriceStatus) &&
-                                            method_exists($shippingPriceStatus, 'getData')
-                                        ) {
-                                            // Check if the response is a JSON object and has the getData method
-                                            if (
-                                                isset($shippingPriceStatus->getData()->status) &&
-                                                $shippingPriceStatus->getData()->status === false
-                                            ) {
-                                                $shippingPrice = 0;
-                                            } else {
-                                                $shippingPrice = $shippingPriceStatus->getData()->price ?? 0;
-                                            }
-                                        } else {
-                                            // Handle case where the response is not a JSON object
-                                            $shippingPrice = 0; // Default to 0 or handle as needed
-                                        }
-                                    @endphp
-
-                                    {{ $shippingPrice }}
+                                    {{ getShippingPrice() }}
                                 </span>
                             </p>
                             <h6>total <span>

@@ -244,6 +244,9 @@ class CartController extends Controller
             $total += ($subtotal - $discount) * $item->qty;
         }
 
+        $shippingPrice = getShippingPrice() ?? 0;
+        $total += $shippingPrice;
+
         return response()->json([
             'status' => true,
             'message' => 'Success',
@@ -251,6 +254,7 @@ class CartController extends Controller
             'tax' => $tax,
             'discount' => $discount,
             'total' => $total,
+            'shipping_price' => $shippingPrice,
         ]);
     }
 
