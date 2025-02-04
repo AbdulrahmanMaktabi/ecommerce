@@ -105,5 +105,5 @@ function getShippingPrice()
     $shippingRule = $checkout['shippingRule'];
     if (!$shippingRule) return response()->json(['status' => false, 'message' => 'there is no shipping rule found']);
 
-    return $checkout['shippingRule']->price;
+    return $checkout['shippingRule']->price ?? 0;
 }
