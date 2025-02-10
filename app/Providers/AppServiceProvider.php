@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Share Variable For All Views
         view::share('generalSettings', $generalSettings);
+        view::share('settings', $generalSettings);
     }
 }

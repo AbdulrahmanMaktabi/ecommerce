@@ -16,6 +16,8 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\FlashSaleItemsController;
+use App\Http\Controllers\Backend\PaypalSettingController;
+use App\Http\Controllers\Backend\PaymentSettingController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ShippingRulesController;
 use App\Models\ChildCategory;
@@ -149,4 +151,11 @@ Route::prefix('shipping-rule')
         Route::put('update/{shippingRuleID}', [ShippingRulesController::class, 'update'])->name('update');
         Route::delete('delete/{shippingRuleID}', [ShippingRulesController::class, 'destroy'])->name('delete');
         Route::post('update-status', [ShippingRulesController::class, 'updateStatus'])->name('updateStatus');
+    });
+
+Route::prefix('payment')
+    ->name('payment')
+    ->group(function () {
+        Route::get('/', [PaymentSettingController::class, 'index'])->name('index');
+        Route::resource('paypal', PaypalSettingController::class);
     });

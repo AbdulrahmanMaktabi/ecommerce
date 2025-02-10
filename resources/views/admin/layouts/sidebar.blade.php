@@ -74,6 +74,9 @@
                         <li class="{{ setActive(['admin.flashSale.*']) }}">
                             <a class="nav-link " href="{{ route('admin.flashSale.index') }}">Flash Sale </a>
                         </li>
+                        <li class="{{ setActive(['admin.paymentindex']) }}">
+                            <a class="nav-link " href="{{ route('admin.paymentindex') }}">Payments </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
